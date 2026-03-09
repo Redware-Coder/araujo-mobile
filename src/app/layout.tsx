@@ -19,7 +19,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Araújo Pneus - Mobile",
-  description: "Sistema integrado ao sistema local, trazendo informações de forma agrupada e rápida.",
+  description:
+    "Sistema integrado ao sistema local, trazendo informações de forma agrupada e rápida.",
+  manifest: "/manifest.json",
+  themeColor: "#000000",
   icons: {
     icon: "/icon.png",
     apple: "/apple-icon.png",
@@ -33,12 +36,12 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "h-full bg-background font-sans antialiased",
           inter.className
         )}
       >
         <FiltroProvider>
-          <Sidebar />
+          <Sidebar></Sidebar>
           {children}
 
           {/* DevTools só em modo desenvolvimento */}

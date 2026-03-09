@@ -5,12 +5,25 @@ import { ContasSet } from "@/components/buscadores";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {  Table,  TableBody,  TableCaption,  TableCell,  TableFooter,  TableHead,  TableHeader,  TableRow,} from "@/components/ui/table"
 import { useFiltro } from "@/components/contexts/FiltroContext";
+import { useRouter } from "next/navigation"; 
 
 
 export default function Contas() {       
 
     //COMEÇAR COMO PADRAO SEMPRE QUE CARREGAR A PAGINA
    const { filtros, setFiltros } = useFiltro();
+   const router = useRouter();
+     const [autorizado, setAutorizado] = useState(false);
+       useEffect(() => {
+       if (filtros.dev === "start") {
+         setAutorizado(true);
+       } else {
+         setAutorizado(false);
+         router.replace("/");
+       }
+     }, [filtros.dev, router]);
+   
+     
 
     useEffect(() => {
       setFiltros((prev) => ({
@@ -143,7 +156,7 @@ useEffect(() => {
         )
 
 
-
+if (!autorizado) return null;
  return (
      <main className="sm:ml-14 p-2 bg-slate-100 h-screen">
             <div className=" w-full h-auto flex items-center flex-row mt-14 sm:mt-2">

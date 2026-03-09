@@ -8,8 +8,7 @@ import { MedidasSet } from "@/components/buscadores";
 import { useEffect, useState } from "react";
 import { useFiltro } from '@/components/contexts/FiltroContext';
 import { useRef } from "react";
-
-
+import { useRouter } from "next/navigation";
   
 
 function formatDate(date: Date | undefined) {
@@ -39,6 +38,17 @@ export function Filtro({ fecharPopover }: FiltroProps) {
 
   const { filtros, setFiltros } = useFiltro()  
   const inputRef = useRef<HTMLInputElement>(null);
+
+     const router = useRouter();
+       const [autorizado, setAutorizado] = useState(false);
+            useEffect(() => {
+         if (filtros.dev === "start") {
+           setAutorizado(true);
+         } else {
+           setAutorizado(false);
+           router.replace("/");
+         }
+       }, [filtros.dev, router]);
 
   const lojaCidade = [
     "Todas", "Tocantins", "Pará", "Araguaína",  "Matriz", "Matriz & T. de A",
@@ -182,57 +192,37 @@ const medidasLocal2 = [
       }
 
     async function aplicarFiltro() {
-      
-      if (!ip) return; // ⛔ espera o IP carregar
-        const baseUrl = getApiBaseUrl(ip);
-        {periodoSelecionado !== 'Manual' && (
-          setFiltros({
-                comp: "1",
-                lojaCidade: lojaSelecionada,
-                periodo: periodoSelecionado,  
-                ano: "",
-                mes:"",                
-                dataInicial:  new Date(),
-                dataFinal: new Date(),
-                pagina: filtros.pagina,  
-                medida: medidaSelecionada          
-                
-        })
-        )}
-        {periodoSelecionado === 'Manual' && (
-          setFiltros({
-                comp: "1",
-                lojaCidade: lojaSelecionada,
-                periodo: periodoSelecionado,  
-                ano: "",
-                mes:"",                
-                dataInicial:  date,
-                dataFinal: dateFin,
-                pagina: filtros.pagina,  
-                medida: medidaSelecionada          
-                
-        })
-        )}
 
-        
-      // Aqui você pode chamar qualquer função extra, por exemplo enviar para API
-        const dados = {
-          comportamento: 1,
-          loja: lojaSelecionada,
-          periodo: periodoSelecionado,
-          mes: new Date().getMonth() + 1,
-          ano: new Date().getFullYear(),
-          dataIni: date?.toISOString().split("T")[0],
-          dataFin: dateFin?.toISOString().split("T")[0]
-          
-        };
+  if (!ip) return;
 
-        await fetch(`${baseUrl}/Comunicacao`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dados),
-        });
-    }   
+  setFiltros((prev) => ({
+    ...prev,
+    comp: "1",
+    lojaCidade: lojaSelecionada,
+    periodo: periodoSelecionado,
+    dataInicial: periodoSelecionado === "Manual" ? date : new Date(),
+    dataFinal: periodoSelecionado === "Manual" ? dateFin : new Date(),
+    medida: medidaSelecionada,
+  }));
+
+  const baseUrl = getApiBaseUrl(ip);
+
+  const dados = {
+    comportamento: 1,
+    loja: lojaSelecionada,
+    periodo: periodoSelecionado,
+    mes: new Date().getMonth() + 1,
+    ano: new Date().getFullYear(),
+    dataIni: date?.toISOString().split("T")[0],
+    dataFin: dateFin?.toISOString().split("T")[0]
+  };
+
+  await fetch(`${baseUrl}/Comunicacao`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dados),
+  });
+}
     
 
     const [medidaDados, setMedidaDados] = useState<MedidasSet[]>([]) 
@@ -262,14 +252,14 @@ const medidasLocal2 = [
        return () => clearTimeout(timer)
        }, [filtros, ip])
 
-
+if (!autorizado) return null;
  
  return (
    <div className="flex text-left w-[35vh] h-auto flex-col top-0 text-black rounded-2xl px-5">
    
     
     {/** COMOBOBOX LOJAS CIDADES ESTADOS ------------------------------------------------------------- */}
-     {(filtros.pagina === "Giro" || filtros.pagina === "Dashboard" || filtros.pagina === "Boletos") && (
+     {(filtros.pagina === "Giro" || filtros.pagina === "Dashboard" || filtros.pagina === "Boletos" || filtros.pagina === "Compras") && (
             <div className='w-fit mb-6 bg'>
               <h2 className='mb-1 text-gray-700'>Selecione Loja, Cidade ou Estado:</h2>
               <Combobox
@@ -281,7 +271,7 @@ const medidasLocal2 = [
                     setLojaSelecionada(value)
                   }}
                 >
-                  <ComboboxInput readOnly />
+                  <ComboboxInput readOnly autoFocus={false} />
                   <ComboboxContent>
                     <ComboboxEmpty>No items found.</ComboboxEmpty>
                     <ComboboxList>
@@ -303,7 +293,7 @@ const medidasLocal2 = [
                     if (!value) return
                     setLojaSelecionada(value)
                   }}>
-                <ComboboxInput readOnly/>
+                <ComboboxInput readOnly autoFocus={false} />
                 <ComboboxContent >
                   <ComboboxEmpty>No items found.</ComboboxEmpty>
                   <ComboboxList>
@@ -325,7 +315,7 @@ const medidasLocal2 = [
                     if (!value) return
                     setLojaSelecionada(value)
                   }}>
-                <ComboboxInput readOnly/>
+                <ComboboxInput readOnly autoFocus={false} />
                 <ComboboxContent >
                   <ComboboxEmpty>No items found.</ComboboxEmpty>
                   <ComboboxList>
@@ -340,14 +330,14 @@ const medidasLocal2 = [
       </div>)}
       
       {/** COMOBOBOX TODOS OS PERIODOS ------------------------------------------------------------- */}      
-      {(filtros.pagina === "Giro" || filtros.pagina === "Dashboard" || filtros.pagina === "Contas" || filtros.pagina === "Boletos" || filtros.pagina === "Balancete") && (
+      {(filtros.pagina === "Giro" || filtros.pagina === "Dashboard" || filtros.pagina === "Compras" || filtros.pagina === "Contas" || filtros.pagina === "Boletos" || filtros.pagina === "Balancete") && (
             <div className='w-fit'>
               <h2 className='mb-1 text-gray-700'>Período:</h2>
               <Combobox items={periodo} defaultValue={periodo[0]} value={periodoSelecionado} onValueChange={(value) => {
                   if (!value) return
                   setPeriodoSelecionado(value)
                 }}>
-                <ComboboxInput readOnly />
+                <ComboboxInput readOnly autoFocus={false} />
                 <ComboboxContent>
                   <ComboboxEmpty>No items found.</ComboboxEmpty>
                   <ComboboxList>

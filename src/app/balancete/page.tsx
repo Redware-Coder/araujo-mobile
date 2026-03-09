@@ -13,15 +13,28 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import { useRouter } from 'next/navigation';
 
 
   
 
-export default function Estoque() {
+export default function Balancete() {
 
  //COMEÇAR COMO PADRAO SEMPRE QUE CARREGAR A PAGINA
    const { filtros, setFiltros } = useFiltro();
     const mesAtual = new Date().toLocaleString("pt-BR", { month: "long" }).replace(/^./, (letra) => letra.toUpperCase())
+    const router = useRouter();
+      const [autorizado, setAutorizado] = useState(false);
+      useEffect(() => {
+      if (filtros.dev === "start") {
+          setAutorizado(true);
+        } else {
+            setAutorizado(false);
+          router.replace("/");
+        }
+      }, [filtros.dev, router]);   
+    
+      
     useEffect(() => {
       setFiltros((prev) => ({
         ...prev,
@@ -170,14 +183,19 @@ export default function Estoque() {
   }
 
   const faturamentoGeral = info[0]?.faturamento || 0;
-const dados = info[0] || {};
+  const vendaProd = info[0]?.vendaProd || 0;
 
   const calcularPorcentagem = (valor: number): string => {
     if (!faturamentoGeral || faturamentoGeral === 0) return "0%";
     return ((valor || 0) / faturamentoGeral * 100).toFixed(2) + "%";
-};
-  
+  };
 
+  const calcularPorcentagemP = (valor: number): string => {
+    if (!vendaProd || vendaProd === 0) return "0%";
+    return ((valor || 0) / vendaProd * 100).toFixed(2) + "%";
+  };
+  if (!autorizado) return null;
+  
  return (  
    <main className="sm:ml-14 p-2 h-screen md:h-auto bg-yellow-200">
     <div className=" w-full h-auto flex items-center flex-row mt-14 sm:mt-2">
@@ -239,12 +257,12 @@ const dados = info[0] || {};
                                 <div>
                                     <p className='font-bold'>Faturamento Geral</p><hr className='border-gray-800'></hr><br></br>
                                     <p>Venda de produtos</p><hr className='border-gray-600'></hr>
-                                    <p>Custo de matéria-prima</p><hr className='border-gray-600'></hr>
-                                    <p>Lucro bruto sobre venda</p><hr className='border-gray-600'></hr><br></br>
+                                    <p>Custo matéria-prima</p><hr className='border-gray-600'></hr>
+                                    <p>Lucro bruto venda</p><hr className='border-gray-600'></hr><br></br>
 
-                                    <p>Faturamento de serviços</p><hr className='border-gray-600'></hr>
+                                    <p>Fatur. de serviços</p><hr className='border-gray-600'></hr>
                                     <p>Receitas fixas</p><hr className='border-gray-600'></hr>
-                                    <p>Bonificação de entrada</p><hr className='border-gray-600'></hr>
+                                    <p>Bonific. de entrada</p><hr className='border-gray-600'></hr>
                                     <p>Total das receitas</p><hr className='border-gray-600'></hr><br></br>
 
                                     <p>Despesas fixas</p><hr className='border-gray-600'></hr>
@@ -253,10 +271,10 @@ const dados = info[0] || {};
 
                                     <p>Boletos em atraso</p><hr className='border-gray-600'></hr><br></br>
 
-                                    <p>Bonificação de saída</p><hr className='border-gray-600'></hr>
+                                    <p>Bonific. de saída</p><hr className='border-gray-600'></hr>
                                     <p>Total de avarias</p><hr className='border-gray-600'></hr>
                                     <p>Total de comodatos</p><hr className='border-gray-600'></hr>
-                                    <p>Total de desconto financ. </p><hr className='border-gray-600'></hr>
+                                    <p>Desconto financ. </p><hr className='border-gray-600'></hr>
                                     <p>Total perdido</p><hr className='border-gray-600'></hr>
                                     <p>Total de outros</p><hr className='border-gray-600'></hr>
                                     <p>Desconto concedido</p><hr className='border-gray-600'></hr><br></br>
@@ -264,37 +282,37 @@ const dados = info[0] || {};
                                     <p>Lucro bruto geral</p><hr className='border-gray-600'></hr>
                                     <p>Investimentos</p><hr className='border-gray-600'></hr><br></br>
 
-                                    <p className='font-bold'>Lucro Líquido - Saldo</p><hr className='border-gray-600'></hr>
+                                    <p className='font-bold'>Lucro Líquido Saldo</p><hr className='border-gray-600'></hr>
                                 </div>
                                 <div className='text-right m-0'>
-                                    <p className='font-bold'>:</p><hr></hr><br></br>
-                                    <p>:</p><hr></hr>
-                                    <p>:</p><hr></hr>
-                                    <p>:</p><hr></hr><br></br>
+                                    <p className='font-bold'>:</p><hr className='border-gray-600'></hr><br></br>
+                                    <p>:</p><hr className='border-gray-600'></hr>
+                                    <p>:</p><hr className='border-gray-600'></hr>
+                                    <p>:</p><hr className='border-gray-600'></hr><br></br>
 
-                                    <p>:</p><hr></hr>
-                                    <p>:</p><hr></hr>
-                                    <p>:</p><hr></hr>
-                                    <p>:</p><hr></hr><br></br>
+                                    <p>:</p><hr className='border-gray-600'></hr>
+                                    <p>:</p><hr className='border-gray-600'></hr>
+                                    <p>:</p><hr className='border-gray-600'></hr>
+                                    <p>:</p><hr className='border-gray-600'></hr><br></br>
 
-                                    <p>:</p><hr></hr>
-                                    <p>:</p><hr></hr>
-                                    <p>:</p><hr></hr><br></br>
+                                    <p>:</p><hr className='border-gray-600'></hr>
+                                    <p>:</p><hr className='border-gray-600'></hr>
+                                    <p>:</p><hr className='border-gray-600'></hr><br></br>
 
-                                    <p>:</p><hr></hr><br></br>
+                                    <p>:</p><hr className='border-gray-600'></hr><br></br>
                                     
-                                    <p>:</p><hr></hr>
-                                    <p>:</p><hr></hr>
-                                    <p>:</p><hr></hr>
-                                    <p>:</p><hr></hr>
-                                    <p>:</p><hr></hr>
-                                    <p>:</p><hr></hr>
-                                    <p>:</p><hr></hr><br></br>
+                                    <p>:</p><hr className='border-gray-600'></hr>
+                                    <p>:</p><hr className='border-gray-600'></hr>
+                                    <p>:</p><hr className='border-gray-600'></hr>
+                                    <p>:</p><hr className='border-gray-600'></hr>
+                                    <p>:</p><hr className='border-gray-600'></hr>
+                                    <p>:</p><hr className='border-gray-600'></hr>
+                                    <p>:</p><hr className='border-gray-600'></hr><br></br>
 
-                                    <p>:</p><hr></hr>
-                                    <p>:</p><hr></hr><br></br>
+                                    <p>:</p><hr className='border-gray-600'></hr>
+                                    <p>:</p><hr className='border-gray-600'></hr><br></br>
 
-                                    <p className='font-bold'>:</p><hr></hr>
+                                    <p className='font-bold'>:</p><hr className='border-gray-600'></hr>
                                 </div>
 
                             </div>
@@ -333,7 +351,7 @@ const dados = info[0] || {};
                                 <p className='font-bold'>100%</p><hr className='border-gray-600'/><br />
 
                                 <p>{calcularPorcentagem(info[0].vendaProd)}</p><hr className='border-gray-600'/>
-                                <p>{calcularPorcentagem(info[0].custoMateria)}</p><hr className='border-gray-600'/>
+                                <p>{calcularPorcentagemP(info[0].custoMateria)}</p><hr className='border-gray-600'/>
                                 <p>{calcularPorcentagem(info[0].lucroBruto)}</p><hr className='border-gray-600'/><br />
 
                                 <p>{calcularPorcentagem(info[0].vendaServ)}</p><hr className='border-gray-600'/>

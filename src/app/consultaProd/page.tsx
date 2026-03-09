@@ -11,11 +11,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useRouter } from 'next/navigation';
 
 export default function ConsultarProd() {
 
  //COMEÇAR COMO PADRAO SEMPRE QUE CARREGAR A PAGINA
    const { filtros, setFiltros } = useFiltro();
+   const router = useRouter();
+     const [autorizado, setAutorizado] = useState(false);
+     useEffect(() => {
+            if (filtros.dev === "start") {
+              setAutorizado(true);
+            } else {
+              setAutorizado(false);
+              router.replace("/");
+            }
+          }, [filtros.dev, router]);  
+     
 
     useEffect(() => {
       setFiltros((prev) => ({
@@ -118,7 +130,7 @@ export default function ConsultarProd() {
  const inputRef = useRef<HTMLInputElement>(null);
  const [medidaSelecionada, setMedidaSelecionada] = useState<string>(filtros.medida ?? "")
   
-
+if (!autorizado) return null;
  return (  
    <main className="sm:ml-14 sm:w-full p-2 bg-slate-100 h-screen md:h-auto">
     <div className=" w-full h-auto flex items-center flex-row mt-14 sm:mt-2">
@@ -133,7 +145,7 @@ export default function ConsultarProd() {
                     <div className="flex items-center justify-center">
                       <CardTitle className="text-lg font-normal text-gray-600">                        
                         Loja: {filtros.lojaCidade}<br></br>
-                        Medida selecionada: {filtros.medida}
+                        Medida: {filtros.medida}
                       </CardTitle>
                       <Box className="ml-auto w-6 h-6"></Box>
                     </div>

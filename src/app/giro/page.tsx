@@ -5,12 +5,26 @@ import { useFiltro } from "@/components/contexts/FiltroContext";
 import { useEffect, useState } from "react";
 import { GiroSet } from "@/components/buscadores";
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useRouter } from "next/navigation"; 
 
 
 export default function Giro() {  
 
   //COMEÇAR COMO PADRAO SEMPRE QUE CARREGAR A PAGINA
    const { filtros, setFiltros } = useFiltro();
+   const router = useRouter();
+  const [autorizado, setAutorizado] = useState<boolean | null>(null);
+   
+     useEffect(() => {
+       if (filtros.dev === "start") {
+         setAutorizado(true);
+       } else {
+         setAutorizado(false);
+         router.replace("/");
+       }
+     }, [filtros.dev, router]);
+   
+    
 
     useEffect(() => {
       setFiltros((prev) => ({
@@ -77,8 +91,8 @@ export default function Giro() {
     }, [filtros, ip]);
 
 
-   const [giroDados, setGiroDados] = useState<GiroSet[]>([]) 
-useEffect(() => {
+  const [giroDados, setGiroDados] = useState<GiroSet[]>([]) 
+  useEffect(() => {
   if (!ip || !filtros.medida) return;
 
   setLoading(true);
@@ -126,7 +140,9 @@ useEffect(() => {
           0
         )
 
-
+ if (autorizado !== true) {
+    return null;
+      }
  return (
    <main className="sm:ml-14 p-2 bg-slate-100 h-screen md:h-auto">
     <div className=" w-full h-auto flex items-center flex-row mb-4 mt-14 sm:mt-2">
@@ -140,7 +156,7 @@ useEffect(() => {
           <div className="flex items-center justify-center">
             <CardTitle className="text-lg sm:text-2xl">
               
-              Medida selecionada: {filtros.medida}
+              Medida: {filtros.medida}
             </CardTitle>
             <Repeat2 className="ml-auto w-6 h-6"></Repeat2>
           </div>

@@ -6,28 +6,36 @@ import { Building, Building2, DollarSign, Funnel, Landmark, TableProperties } fr
 import ChartOverview from "@/components/chart";
 import Grid from "@/components/Grid";
 import { useFiltro } from '@/components/contexts/FiltroContext';
+import { useRouter } from "next/navigation"; 
 
 export default function Home() {
-   const { filtros, setFiltros } = useFiltro();
+  
+   const { filtros, setFiltros } = useFiltro();   
+   const [info, setInfo] = useState<DadosMobile[]>([]) 
+   const [valor, setValores] = useState<Props[]>([]) 
+   const [comunicacao, setCominucacao] = useState<Com[]>([]) 
+   const [loading, setLoading] = useState(false)
+   const [ip, setIp] = useState("");
+   const router = useRouter();
+   const [autorizado, setAutorizado] = useState<boolean | null>(null);
 
-    useEffect(() => {
+  useEffect(() => {
+    if (filtros.dev === "start") {
+      setAutorizado(true);
+    } else {
+      setAutorizado(false);
+      router.replace("/");
+    }
+  }, [filtros.dev, router]);
+
+  useEffect(() => {
       setFiltros((prev) => ({
         ...prev,
         pagina: "Dashboard",
         lojaCidade: "Todas",
         periodo: "Hoje"
       }));
-    }, []);
-
-  const [info, setInfo] = useState<DadosMobile[]>([]) 
-  const [valor, setValores] = useState<Props[]>([]) 
-  const [comunicacao, setCominucacao] = useState<Com[]>([]) 
-
-  const [loading, setLoading] = useState(false)
-    
-
-  
-  const [ip, setIp] = useState("");
+    }, []); 
 
   useEffect(() => {
     async function buscarIP() {
@@ -52,11 +60,11 @@ export default function Home() {
   
 }
 
-function delay(ms: number) {
+  function delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-useEffect(() => {
+  useEffect(() => {
   if (!ip || !filtros.medida) return;
 
   const controller = new AbortController();
@@ -124,6 +132,10 @@ useEffect(() => {
   };
 }, [ip, filtros]);
 
+if (autorizado !== true) {
+    return null;
+  }
+
   return (
   
    <main className="sm:ml-14 p-2 bg-slate-100">
@@ -168,23 +180,23 @@ useEffect(() => {
             <div className="text-lg sm:text-[1.4vh] mr-4 sm:hidden lg:text-lg lg:block text-gray-500 font-semibold">R$ </div>
              {loading ? (
               <div className="w-auto flex flex-col gap-2">
-                <div className="h-5 w-24 bg-gray-300 rounded animate-pulse" />
+                <div className="h-8 w-50 bg-gray-300 rounded animate-pulse" />
               </div>
             ) : (info.length > 0 && (
-            <div className="text-[4vh] sm:text-[1.4vh] lg:text-lg justify-center flex font-semibold text-green-700">{info[0].venda}</div>))}
+            <div className="text-[5.3vh] sm:text-[3vh] lg:text-[4vh] justify-center flex font-semibold text-green-700">{info[0].venda}</div>))}
             
           </div>
           
 
         <div className="flex items-center justify-between flex-row">          
           <div className="w-auto">                    
-            <div className="text-lg sm:text-[1.4vh] lg:text-lg text-blue-700">Recebido:</div>
-            <div className="text-lg sm:text-[1.4vh] lg:text-lg text-orange-500">A Receber:</div>
+            <div className="text-lg sm:text-[2vh] lg:text-lg text-blue-700">Recebido:</div>
+            <div className="text-lg sm:text-[2vh] lg:text-lg text-orange-500">A Receber:</div>
           </div>
 
           <div className="w-auto">
-            <div className="text-lg  sm:text-[1.4vh] sm:hidden lg:text-lg lg:block text-blue-700">R$:</div>
-            <div className="text-lg  sm:text-[1.4vh] sm:hidden lg:text-lg lg:block text-orange-500">R$:</div>
+            <div className="text-lg  sm:text-[2vh] sm:hidden lg:text-lg lg:block text-blue-700">R$:</div>
+            <div className="text-lg  sm:text-[2vh] sm:hidden lg:text-lg lg:block text-orange-500">R$:</div>
           </div>
             {loading ? (
               <div className="w-auto flex flex-col gap-2">
@@ -193,8 +205,8 @@ useEffect(() => {
               </div>
             ) : (info.length > 0 && (
                           <div className="w-auto flex flex-col">            
-                            <div className="text-lg sm:text-[1.4vh] lg:text-lg flex justify-end text-blue-700">{info[0].recebido}</div>
-                            <div className="text-lg sm:text-[1.4vh] lg:text-lg flex justify-end text-orange-500">{info[0].areceber}</div>
+                            <div className="text-lg sm:text-[2vh] lg:text-lg flex justify-end text-blue-700">{info[0].recebido}</div>
+                            <div className="text-lg sm:text-[2vh] lg:text-lg flex justify-end text-orange-500">{info[0].areceber}</div>
                           
                           </div>
               ))}          
@@ -214,21 +226,21 @@ useEffect(() => {
         </CardHeader>
         <CardContent className="px-4 text-gray-800">
          <div className="flex items-center justify-between flex-row mb-2">
-            <div className="text-lg  sm:text-[1.4vh] lg:text-lg font-semibold">Qtd de Pneus Vendidos:</div>
+            <div className="text-lg  sm:text-[2vh] lg:text-lg font-semibold">Qtd de Pneus Vendidos:</div>
 
             {loading ? (
               <div className="w-auto flex flex-col gap-2">
                 <div className="h-5 w-24 bg-gray-300 rounded animate-pulse" />
               </div>
             ) : (valor.length > 0 && (
-              <div className="text-lg sm:text-[1.4vh] lg:text-lg font-semibold flex justify-end">{valor[0].qtdPneu}</div>
+              <div className="text-lg sm:text-[2vh] lg:text-lg font-semibold flex justify-end">{valor[0].qtdPneu}</div>
             ))}
         </div><hr></hr>
         <div className="flex items-center justify-between flex-row mt-2">
           <div className="w-auto">
-            <div className="text-lg  sm:text-[1.4vh] lg:text-lg font-bol">Pneus:</div>
-            <div className="text-lg  sm:text-[1.4vh] lg:text-lg font-bol">Serviços:</div>
-            <div className="text-lg  sm:text-[1.4vh] lg:text-lg font-bol">Peças/Outros:</div>
+            <div className="text-lg  sm:text-[1.8vh] lg:text-lg font-bol">Pneus:</div>
+            <div className="text-lg  sm:text-[1.8vh] lg:text-lg font-bol">Serviços:</div>
+            <div className="text-lg  sm:text-[1.8vh] lg:text-lg font-bol">Peças/Outros:</div>
           </div>
 
           <div className="w-auto">
@@ -244,9 +256,9 @@ useEffect(() => {
               </div>
             ) : (valor.length > 0 && (
                 <div className="w-auto">
-                  <div className="text-lg sm:text-[1.4vh] lg:text-lg flex justify-end">{valor[0].pneu}</div>
-                  <div className="text-lg sm:text-[1.4vh] lg:text-lg flex justify-end">{valor[0].servico}</div>
-                  <div className="text-lg sm:text-[1.4vh] lg:text-lg flex justify-end">{valor[0].outros}</div>
+                  <div className="text-lg sm:text-[1.8vh] lg:text-lg flex justify-end">{valor[0].pneu}</div>
+                  <div className="text-lg sm:text-[1.8vh] lg:text-lg flex justify-end">{valor[0].servico}</div>
+                  <div className="text-lg sm:text-[1.8vh] lg:text-lg flex justify-end">{valor[0].outros}</div>
                 </div> 
           ))}      
 
@@ -290,15 +302,15 @@ useEffect(() => {
         <CardContent className="pl-4 pr-4 text-white">
         <div className="flex items-center justify-between flex-row">
           <div className="w-auto">            
-            <div className="text-lg sm:text-[1.4vh] lg:text-lg ">A Receber:</div>
-            <div className="text-lg sm:text-[1.4vh] lg:text-lg  ">A Pagar:</div>
-            <div className="text-lg sm:text-[1.4vh] lg:text-lg  t">Boletos Atraso:</div>
+            <div className="text-lg sm:text-[1.8vh] lg:text-lg ">A Receber:</div>
+            <div className="text-lg sm:text-[1.8vh] lg:text-lg  ">A Pagar:</div>
+            <div className="text-lg sm:text-[1.8vh] lg:text-lg  t">Boletos Atraso:</div>
           </div>
 
           <div className="w-auto">
-            <div className="text-lg  sm:text-[1.4vh] lg:text-lg ">R$:</div>
-            <div className="text-lg  sm:text-[1.4vh] lg:text-lg ">R$:</div>
-            <div className="text-lg  sm:text-[1.4vh] lg:text-lg ">R$:</div>
+            <div className="text-lg  sm:text-[1.8vh] lg:text-lg ">R$:</div>
+            <div className="text-lg  sm:text-[1.8vh] lg:text-lg ">R$:</div>
+            <div className="text-lg  sm:text-[1.8vh] lg:text-lg ">R$:</div>
           </div>
             {loading ? (
               <div className="w-auto flex flex-col gap-2">
@@ -308,19 +320,19 @@ useEffect(() => {
               </div>
             ) : (info.length > 0 && (
                           <div className="w-auto flex flex-col">            
-                            <div className="text-lg sm:text-[1.4vh] lg:text-lg flex justify-end ">
+                            <div className="text-lg sm:text-[1.8vh] lg:text-lg flex justify-end ">
                               {valor[0].areceberFinanceiro.toLocaleString("pt-BR", {
                                           minimumFractionDigits: 2,
                                           maximumFractionDigits: 2,
                               })}
                             </div>
-                            <div className="text-lg sm:text-[1.4vh] lg:text-lg flex justify-end ">
+                            <div className="text-lg sm:text-[1.8vh] lg:text-lg flex justify-end ">
                               {valor[0].apagarFinanceiro.toLocaleString("pt-BR", {
                                           minimumFractionDigits: 2,
                                           maximumFractionDigits: 2,
                               })}
                             </div>
-                            <div className="text-lg sm:text-[1.4vh] lg:text-lg flex justify-end ">
+                            <div className="text-lg sm:text-[1.8vh] lg:text-lg flex justify-end ">
                               {valor[0].boletovencido.toLocaleString("pt-BR", {
                                           minimumFractionDigits: 2,
                                           maximumFractionDigits: 2,

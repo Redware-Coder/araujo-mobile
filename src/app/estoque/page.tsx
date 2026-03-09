@@ -4,11 +4,24 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { House } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { EstoqueSet } from '@/components/buscadores';
+import { useRouter } from "next/navigation"; 
 
 export default function Estoque() {
 
  //COMEÇAR COMO PADRAO SEMPRE QUE CARREGAR A PAGINA
    const { filtros, setFiltros } = useFiltro();
+   const router = useRouter();
+     const [autorizado, setAutorizado] = useState(false);
+          useEffect(() => {
+       if (filtros.dev === "start") {
+         setAutorizado(true);
+       } else {
+         setAutorizado(false);
+         router.replace("/");
+       }
+     }, [filtros.dev, router]);
+   
+     
 
     useEffect(() => {
       setFiltros((prev) => ({
@@ -123,7 +136,7 @@ export default function Estoque() {
           0
         )
   
-
+if (!autorizado) return null;
  return (  
    <main className="sm:ml-14 p-2 bg-slate-100 h-screen">
     <div className=" w-full h-auto flex items-center flex-row mt-14 sm:mt-2">
@@ -137,7 +150,7 @@ export default function Estoque() {
                   <CardHeader className="mb-0">
                     <div className="flex items-center justify-center">
                       <CardTitle className="text-lg sm:textlg font-normal text-gray-600">                       
-                       Medida selecionada: {filtros.medida}
+                       Medida: {filtros.medida}
                       </CardTitle>
                       <House className="ml-auto w-6 h-6"></House>
                     </div>

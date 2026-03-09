@@ -12,11 +12,23 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogOverlay } from '@radix-ui/react-dialog';
+import { useRouter } from 'next/navigation';
 
 export default function Estoque() {
 
  //COMEÇAR COMO PADRAO SEMPRE QUE CARREGAR A PAGINA
    const { filtros, setFiltros } = useFiltro();
+   const router = useRouter();
+     const [autorizado, setAutorizado] = useState(false);
+    useEffect(() => {
+      if (filtros.dev === "start") {
+          setAutorizado(true);
+        } else {
+            setAutorizado(false);
+          router.replace("/");
+        }
+      }, [filtros.dev, router]);
+   
 
     useEffect(() => {
       setFiltros((prev) => ({
@@ -131,8 +143,8 @@ export default function Estoque() {
           0
         )
   
-
- return (  
+  if (!autorizado) return null;
+  return (  
    <main className="sm:ml-14 p-2 bg-slate-100 h-screen md:h-auto">
     <div className=" w-full h-auto flex items-center flex-row mt-14 sm:mt-2">
           <div className='w-full h-auto flex items-left flex-col '>
@@ -145,8 +157,8 @@ export default function Estoque() {
                   <CardHeader className="mb-0">
                     <div className="flex items-center justify-center">
                       <CardTitle className="text-lg sm:text-lg font-normal text-gray-600">                       
-                       Loja selecionada: {filtros.lojaCidade}<br></br>
-                       Peíodo selecionado: {filtros.periodo}
+                       Loja: {filtros.lojaCidade}<br></br>
+                       Período: {filtros.periodo}
                       </CardTitle>
                       <SquareKanban className="ml-auto w-6 h-6"></SquareKanban>
                     </div>

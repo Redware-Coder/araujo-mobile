@@ -4,6 +4,7 @@ import { createContext, useContext, useState } from "react"
 type FiltroState = {
   comp: string
   lojaCidade: string
+  loja: string
   periodo: string
   ano: string
   mes: string
@@ -11,6 +12,9 @@ type FiltroState = {
   dataFinal: Date | null  
   pagina: string
   medida: string
+  nf: string
+  for: string
+  dev: string
 }
 
 type FiltroContextType = {
@@ -26,13 +30,17 @@ export function FiltroProvider({ children }: { children: React.ReactNode }) {
   const [filtros, setFiltros] = useState<FiltroState>({
     comp: "1",
     lojaCidade: "Todas",
+    loja: "",
     periodo: mesAtual,
     ano: "",
     mes: "",
     dataInicial: new Date(),
     dataFinal: new Date(),
     pagina: "",
-    medida: "Todas"
+    medida: "Todas",
+    nf: "",
+    for: "",
+    dev: ""
     
   })
 
