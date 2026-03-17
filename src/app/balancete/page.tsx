@@ -199,7 +199,7 @@ export default function Balancete() {
   if (!autorizado) return null;
   
  return (  
-   <main className="sm:ml-14 lg:ml-51 p-2 h-dvh md:h-dvh bg-yellow-200">
+   <main className="flex flex-col items-center justify-center lg:items-start lg:ml-56 p-2 h-dvh md:h-dvh bg-yellow-200">
     <div className=" w-full h-auto flex items-center flex-row mt-14 sm:mt-2">
           <div className='w-full h-auto flex items-left flex-row items-center gap-4 '>
             <h1 className="hidden lg:block w-auto h-auto text-2xl pl-3 pt-2">DRE / Balancete</h1>  
@@ -207,7 +207,7 @@ export default function Balancete() {
           </div>         
    </div>
 
-        <section className="sm:w-140">
+        <section className="sm:w-100">
           <Card className='bg-slate-150 shadow-none border-0'>
                   
               <CardContent className='m-0 p-2 pt-0'>

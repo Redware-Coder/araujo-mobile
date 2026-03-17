@@ -53,11 +53,11 @@ export function Sidebar() {
   
    <div className="flex w-full flex-col top-0">
     {mounted && filtros.pagina !== "Intro" && (
-    <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 lg:w-auto lg:items-start border-r bg-black sm:flex flex-col">
+    <aside className="fixed inset-y-0 left-0 z-10 hidden lg:w-auto lg:items-start border-r bg-black lg:flex flex-col">
       <div className="hidden lg:block w-full pl-6 h-38 pt-4 bg-[url('/wall_1.jpg')] bg-cover bg-center items-center justify-center">
         <div className="w-36 h-28 bg-[url('/LogoFHD-BRANCO_SOMBRA.png')] bg-contain bg-center bg-no-repeat"></div>
       </div>
-      <nav className="flex flex-col items-center lg:items-start gap-4 px-2 lg:px-3 py-5 pt-20 lg:pt-2">      
+      <nav className="font-light flex flex-col items-center lg:items-start gap-4 px-2 lg:px-5 py-5 pt-20 lg:pt-2">      
 
         <TooltipProvider>
           <Tooltip>
@@ -154,9 +154,9 @@ export function Sidebar() {
     </aside>)}
     
     {mounted && filtros.pagina !== "Intro" && (
-    <div className="sm:hidden flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+    <div className="lg:hidden flex flex-col sm:gap-4 sm:py-4 lg:pl-14">
       <header className="fixed bg-black w-full top-0 z-30 flex h-14 items-center px-4 gap-4 
-       sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+       lg:static lg:h-auto lg:border-0 lg:bg-transparent sm:px-6">
         <Sheet>
           <div className="w-full flex flex-row items-center justify-between">
               <SheetTrigger asChild>
@@ -164,7 +164,7 @@ export function Sidebar() {
               </SheetTrigger>
               <div className=" w-28 h-10 mt-2 ml-28 bg-contain bg-center bg-no-repeat bg-[url('/LogoFHD-BRANCO.png')]"></div>
               <span className="sr-only">Logo</span>  
-              <div className="w-36 flex flex-row pr-2 text-white justify-end">
+              <div className="w-36 sm:w-42 flex flex-row pr-2 text-white items-center justify-end">
                 <div className="w-26">
                   {filtros.pagina !== "teste" && (
                     <div  style={{textAlign: 'right', fontSize: '11px',  }}>Loja: {filtros.lojaCidade}
@@ -175,7 +175,7 @@ export function Sidebar() {
                      Período: {filtros.periodo}</div>
                     )}
 
-                   </div>
+                   
                 </div>
                   <>
                     {openFiltro && (
@@ -203,7 +203,7 @@ export function Sidebar() {
                         <Filtro fecharPopover={() => setOpenFiltro(false)} />
                       </DialogContent>
                     </Dialog>
-                  </>
+                  </></div>
               </div>
 
           <SheetContent side="left" className="sm:max-w-x [&>button]:hidden">

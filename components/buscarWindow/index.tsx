@@ -257,7 +257,7 @@ const medidasLocal2 = [
 if (!autorizado) return null;
  
  return (
-   <div className="pl-6 pr-6 min-w-90 w-auto h-20 border-2 gap-2 flex flex-row items-center
+   <div className="pl-6 hidden pr-6 min-w-90 w-auto h-20 border-2 gap-2 lg:flex flex-row items-center
     justify-start rounded-2xl">
    
     
@@ -313,7 +313,7 @@ if (!autorizado) return null;
 
       {/** COMOBOBOX Matriz + ------------------------------------------------------------- */}
       {filtros.pagina === "Balancete"  && (
-        <div><h2 className='pl-2 text-sm pb-1 text-gray-700'>Período: </h2>
+        <div><h2 className='pl-2 text-sm pb-1 text-gray-700'>Loja: </h2>
             <div className="bg-black rounded-lg text-white">
               <Combobox defaultValue={filtros.periodo} items={loja2} value={lojaSelecionada} onValueChange={(value) => {
                     if (!value) return

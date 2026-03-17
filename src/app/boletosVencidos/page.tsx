@@ -146,15 +146,15 @@ export default function Estoque() {
   
   if (!autorizado) return null;
   return (  
-   <main className="sm:ml-14 lg:ml-51 p-2 bg-slate-100 h-dvh">
+   <main className="flex flex-col items-center lg:items-start  lg:ml-56 p-2 bg-slate-100 h-dvh">
     <div className=" w-full h-auto flex items-center flex-row mt-14 sm:mt-2 mb-3">
           <div className='w-full h-auto flex items-left flex-row items-center gap-4'>
-            <h1 className=" w-auto h-auto text-2xl pl-3 pt-2">Boletos Vencidos</h1>  
+            <h1 className=" w-auto h-auto text-2xl pl-3 pt-2 sm:pt-7">Boletos Vencidos</h1>  
             <div className='w-auto h-auto hidden sm:block'><FiltroW /></div>           
           </div>         
    </div>
 
-        <section className="sm:w-140">
+        <section className="lg:w-140 w-full">
           <Card className='bg-slate-150 shadow-none border-0'>
                   <CardHeader className="mb-0">
                     <div className="flex items-center justify-center">

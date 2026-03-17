@@ -139,7 +139,7 @@ useEffect(() => {
                     {loading ? (
                       <div className="h-4 w-20 bg-gray-300 rounded animate-pulse" />
                     ) : (
-                      <>{totalProd.toLocaleString("pt-BR")}</>
+                      <>{formatarNumero(totalProd)}</>
                     )}
                   </TableCell>
 
@@ -147,7 +147,7 @@ useEffect(() => {
                     {loading ? (
                       <div className="h-4 w-20 bg-gray-300 rounded animate-pulse" />
                     ) : (
-                      <>{totalServ.toLocaleString("pt-BR")}</>
+                      <>{formatarNumero(totalServ)}</>
                     )}
                   </TableCell>
 
@@ -155,7 +155,7 @@ useEffect(() => {
                     {loading ? (
                       <div className="h-4 w-20 bg-gray-300 rounded animate-pulse ml-auto" />
                     ) : (
-                      <>{totalTudo.toLocaleString("pt-BR")}</>
+                      <>{formatarNumero(totalTudo)}</>
                     )}
                   </TableCell>
                 </TableRow>

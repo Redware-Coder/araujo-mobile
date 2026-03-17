@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Araújo Pneus - Mobile",
+  title: "Araújo Mobile",
   description:
     "Sistema integrado ao sistema local, trazendo informações de forma agrupada e rápida.",
   manifest: "/manifest.json",
@@ -35,7 +35,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "h-full bg-background font-sans antialiased",
+          "h-full bg-slate-100 font-sans antialiased",
           inter.className
         )}
       >

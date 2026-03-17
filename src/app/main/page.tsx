@@ -139,15 +139,15 @@ if (autorizado !== true) {
 
   return (
   
-   <main className="sm:ml-14 lg:ml-51 p-2 bg-slate-100 h-auto">
+   <main className="lg:ml-51 p-2 bg-slate-100 h-dvh">
     <div className=" w-full h-auto flex items-center flex-row mb-4 mt-14 sm:mt-2">
       <div className='w-full h-auto flex items-center flex-row gap-4'>
-        <h1 className=" w-auto h-auto text-2xl pl-3 pt-2">Dashboard</h1>
-        <div className='w-auto h-auto hidden sm:block'><FiltroW></FiltroW></div>
+        <h1 className=" w-auto h-auto text-2xl pl-3 pt-2 sm:pt-5">Dashboard</h1>
+        <div className='w-auto h-auto'><FiltroW></FiltroW></div>
       </div>
      
     </div>
-    <section className="sm:justify-start grid grid-cols sm:grid-cols-3 gap-4 ">
+    <section className="sm:justify-start grid grid-cols sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
       
       <Card>
         <CardHeader className="pl-4 pr-4">
@@ -161,7 +161,7 @@ if (autorizado !== true) {
         </CardHeader>
         <CardContent className="pl-4 pr-4">
           <div className="w-auto flex justify-center text-lg sm:text-[1.4vh] font-semibold lg:text-lg text-green-700">Vendido:</div>
-          <div className='w-auto mb-2 flex flex-row items-center justify-center'>            
+          <div className='w-auto mb-1 flex flex-row items-center justify-center'>            
             <div className="text-lg sm:text-[1.4vh] mr-4 sm:hidden lg:text-lg lg:block text-gray-500 font-semibold">R$ </div>
              {loading ? (
               <div className="w-auto flex flex-col gap-2">
@@ -175,13 +175,13 @@ if (autorizado !== true) {
 
         <div className="flex items-center justify-between flex-row">          
           <div className="w-auto">                    
-            <div className="text-lg sm:text-[2vh] lg:text-lg text-blue-700">Recebido:</div>
-            <div className="text-lg sm:text-[2vh] lg:text-lg text-orange-500">A Receber:</div>
+            <div className="text-lg sm:text-[1.7vh] lg:text-lg text-blue-700">Recebido:</div>
+            <div className="text-lg sm:text-[1.7vh]  lg:text-lg text-orange-500">A Receber:</div>
           </div>
 
           <div className="w-auto">
-            <div className="text-lg  sm:text-[2vh] sm:hidden lg:text-lg lg:block text-blue-700">R$:</div>
-            <div className="text-lg  sm:text-[2vh] sm:hidden lg:text-lg lg:block text-orange-500">R$:</div>
+            <div className="text-lg  sm:text-[1.7vh]  sm:hidden lg:text-lg lg:block text-blue-700">R$:</div>
+            <div className="text-lg  sm:text-[1.7vh] sm:hidden lg:text-lg lg:block text-orange-500">R$:</div>
           </div>
             {loading ? (
               <div className="w-auto flex flex-col gap-2">
@@ -190,8 +190,8 @@ if (autorizado !== true) {
               </div>
             ) : (info.length > 0 && (
                           <div className="w-auto flex flex-col">            
-                            <div className="text-lg sm:text-[2vh] lg:text-lg flex justify-end text-blue-700">{info[0].recebido}</div>
-                            <div className="text-lg sm:text-[2vh] lg:text-lg flex justify-end text-orange-500">{info[0].areceber}</div>
+                            <div className="text-lg sm:text-[1.7vh]  lg:text-lg flex justify-end text-blue-700">{info[0].recebido}</div>
+                            <div className="text-lg sm:text-[1.7vh]  lg:text-lg flex justify-end text-orange-500">{info[0].areceber}</div>
                           
                           </div>
               ))}          
@@ -211,21 +211,21 @@ if (autorizado !== true) {
         </CardHeader>
         <CardContent className="px-4 text-gray-800">
          <div className="flex items-center justify-between flex-row mb-2">
-            <div className="text-lg  sm:text-[2vh] lg:text-lg font-semibold">Qtd de Pneus Vendidos:</div>
+            <div className="text-lg  sm:text-[1.7vh] lg:text-lg font-semibold">Qtd de Pneus Vendidos:</div>
 
             {loading ? (
               <div className="w-auto flex flex-col gap-2">
                 <div className="h-5 w-24 bg-gray-300 rounded animate-pulse" />
               </div>
             ) : (valor.length > 0 && (
-              <div className="text-lg sm:text-[2vh] lg:text-lg font-semibold flex justify-end">{valor[0].qtdPneu}</div>
+              <div className="text-lg sm:text-[1.7vh] lg:text-lg font-semibold flex justify-end">{valor[0].qtdPneu}</div>
             ))}
         </div><hr></hr>
         <div className="flex items-center justify-between flex-row mt-2">
           <div className="w-auto">
-            <div className="text-lg  sm:text-[1.8vh] lg:text-lg font-bol">Pneus:</div>
-            <div className="text-lg  sm:text-[1.8vh] lg:text-lg font-bol">Serviços:</div>
-            <div className="text-lg  sm:text-[1.8vh] lg:text-lg font-bol">Peças/Outros:</div>
+            <div className="text-lg  sm:text-[1.7vh] lg:text-lg font-bol">Pneus:</div>
+            <div className="text-lg  sm:text-[1.7vh] lg:text-lg font-bol">Serviços:</div>
+            <div className="text-lg  sm:text-[1.7vh] lg:text-lg font-bol">Peças/Outros:</div>
           </div>
 
           <div className="w-auto">
@@ -241,9 +241,9 @@ if (autorizado !== true) {
               </div>
             ) : (valor.length > 0 && (
                 <div className="w-auto">
-                  <div className="text-lg sm:text-[1.8vh] lg:text-lg flex justify-end">{valor[0].pneu}</div>
-                  <div className="text-lg sm:text-[1.8vh] lg:text-lg flex justify-end">{valor[0].servico}</div>
-                  <div className="text-lg sm:text-[1.8vh] lg:text-lg flex justify-end">{valor[0].outros}</div>
+                  <div className="text-lg sm:text-[1.7vh] lg:text-lg flex justify-end">{valor[0].pneu}</div>
+                  <div className="text-lg sm:text-[1.7vh] lg:text-lg flex justify-end">{valor[0].servico}</div>
+                  <div className="text-lg sm:text-[1.7vh] lg:text-lg flex justify-end">{valor[0].outros}</div>
                 </div> 
           ))}      
 
@@ -287,15 +287,15 @@ if (autorizado !== true) {
         <CardContent className="pl-4 pr-4 text-white">
         <div className="flex items-center justify-between flex-row">
           <div className="w-auto">            
-            <div className="text-lg sm:text-[1.8vh] lg:text-lg ">A Receber:</div>
-            <div className="text-lg sm:text-[1.8vh] lg:text-lg  ">A Pagar:</div>
-            <div className="text-lg sm:text-[1.8vh] lg:text-lg  t">Boletos Atraso:</div>
+            <div className="text-lg sm:text-[1.7vh] lg:text-lg ">A Receber:</div>
+            <div className="text-lg sm:text-[1.7vh] lg:text-lg  ">A Pagar:</div>
+            <div className="text-lg sm:text-[1.7vh] lg:text-lg  t">Boletos Atraso:</div>
           </div>
 
           <div className="w-auto">
-            <div className="text-lg  sm:text-[1.8vh] lg:text-lg ">R$:</div>
-            <div className="text-lg  sm:text-[1.8vh] lg:text-lg ">R$:</div>
-            <div className="text-lg  sm:text-[1.8vh] lg:text-lg ">R$:</div>
+            <div className="text-lg  sm:text-[1.7vh] lg:text-lg ">R$:</div>
+            <div className="text-lg  sm:text-[1.7vh] lg:text-lg ">R$:</div>
+            <div className="text-lg  sm:text-[1.7vh] lg:text-lg ">R$:</div>
           </div>
             {loading ? (
               <div className="w-auto flex flex-col gap-2">
@@ -305,19 +305,19 @@ if (autorizado !== true) {
               </div>
             ) : (info.length > 0 && (
                           <div className="w-auto flex flex-col">            
-                            <div className="text-lg sm:text-[1.8vh] lg:text-lg flex justify-end ">
+                            <div className="text-lg sm:text-[1.7vh] lg:text-lg flex justify-end ">
                               {valor[0].areceberFinanceiro.toLocaleString("pt-BR", {
                                           minimumFractionDigits: 2,
                                           maximumFractionDigits: 2,
                               })}
                             </div>
-                            <div className="text-lg sm:text-[1.8vh] lg:text-lg flex justify-end ">
+                            <div className="text-lg sm:text-[1.7vh] lg:text-lg flex justify-end ">
                               {valor[0].apagarFinanceiro.toLocaleString("pt-BR", {
                                           minimumFractionDigits: 2,
                                           maximumFractionDigits: 2,
                               })}
                             </div>
-                            <div className="text-lg sm:text-[1.8vh] lg:text-lg flex justify-end ">
+                            <div className="text-lg sm:text-[1.7vh] lg:text-lg flex justify-end ">
                               {valor[0].boletovencido.toLocaleString("pt-BR", {
                                           minimumFractionDigits: 2,
                                           maximumFractionDigits: 2,

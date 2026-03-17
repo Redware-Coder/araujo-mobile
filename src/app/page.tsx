@@ -242,13 +242,13 @@ export default function Splash() {
 
         {/* ✅ Se empresa já existe e é válida */}
         {empresaValida && (
-<div className="mt-12 flex flex-col gap-3 items-center w-60">
-  <p></p>
+        <div className="mt-12 flex flex-col gap-3 items-center w-60">
+          <p></p>
 
-  <div className="h-1 w-2/3 rounded bg-gray-800 overflow-hidden relative">
-    <div className="absolute inset-0 bg-linear-to-r from-transparent via-gray-600 to-transparent animate-shimmer"></div>
-  </div>
-</div>
+          <div className="h-1 w-2/3 rounded bg-gray-800 overflow-hidden relative">
+            <div className="absolute inset-0 bg-linear-to-r from-transparent via-gray-600 to-transparent animate-shimmer"></div>
+          </div>
+        </div>
         )}
 
         {/* ❌ Se não existe empresa ou licença expirada */}
