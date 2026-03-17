@@ -139,7 +139,7 @@ if (autorizado !== true) {
 
   return (
   
-   <main className="lg:ml-51 p-2 bg-slate-100 h-dvh">
+   <main className="lg:ml-56 p-2 bg-slate-100 h-dvh">
     <div className=" w-full h-auto flex items-center flex-row mb-4 mt-14 sm:mt-2">
       <div className='w-full h-auto flex items-center flex-row gap-4'>
         <h1 className=" w-auto h-auto text-2xl pl-3 pt-2 sm:pt-5">Dashboard</h1>
