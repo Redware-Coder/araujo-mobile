@@ -72,8 +72,6 @@ export default function Splash() {
     return "http://177.54.239.199:4143/api/SqlApp";
   }
 
-  const API_BASE_URL = "/api/SqlApp";
-
   // 🔹 Valida empresa salva automaticamente
   async function validarEmpresaSalva() {
     const empresaId = localStorage.getItem("empresaId");
@@ -85,8 +83,7 @@ export default function Splash() {
       return;
     }
 
-    //const baseUrl = getApiBaseUrl(ip);
-    const baseUrl = "/api/SqlApp";
+    const baseUrl = getApiBaseUrl(ip);
 
     try {
       const response = await fetch(

@@ -61,8 +61,6 @@ export default function Home() {
   
 }
 
-const API_BASE_URL = "/api/SqlApp";
-
   function delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -78,7 +76,6 @@ const API_BASE_URL = "/api/SqlApp";
       setLoading(true);
 
       const baseUrl = getApiBaseUrl(ip);
-      //const baseUrl = "/api/SqlApp";
 
       const dadosFiltro = {
         comportamento: 1,
