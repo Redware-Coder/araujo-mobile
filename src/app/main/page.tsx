@@ -61,6 +61,8 @@ export default function Home() {
   
 }
 
+const API_BASE_URL = "/api/SqlApp";
+
   function delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -90,7 +92,8 @@ export default function Home() {
       };
 
       // 1️⃣ Primeiro envia filtro
-      await fetch(`${baseUrl}/UpComunicacao`, {
+      //await fetch(`${baseUrl}/UpComunicacao`, {
+      await fetch(`${API_BASE_URL}/UpComunicacao`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dadosFiltro),
@@ -102,8 +105,10 @@ export default function Home() {
 
       // 2️⃣ Depois busca os dados
       const [dadosRes, comunicacaoRes] = await Promise.all([
-        fetch(`${baseUrl}/Dados`, { signal }),
-        fetch(`${baseUrl}/Comunicacao`, { signal })
+       // fetch(`${baseUrl}/Dados`, { signal }),
+        //fetch(`${baseUrl}/Comunicacao`, { signal })
+        await fetch(`${API_BASE_URL}/Dados`),
+        await fetch(`${API_BASE_URL}/Comunicacao`)
       ]);
 
       if (!dadosRes.ok || !comunicacaoRes.ok) {
