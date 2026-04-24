@@ -133,9 +133,13 @@ export default function Splash() {
   }
 
   // 🔹 Executa validação automática assim que IP estiver carregado
+  //useEffect(() => {
+  //  if (ip) validarEmpresaSalva();
+  //}, [ip]);
+
   useEffect(() => {
-    if (ip) validarEmpresaSalva();
-  }, [ip]);
+  validarEmpresaSalva();
+  }, []);
 
   // 🔹 Redireciona automático se empresa válida
   useEffect(() => {
