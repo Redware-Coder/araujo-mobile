@@ -65,12 +65,16 @@ export default function Splash() {
 }, [iniciarApp]);
 
   // 🔹 URL base da API
-  function getApiBaseUrl(ip: string) {
-    if (ip.startsWith("177.54.239.199")) {
-      return "http://10.1.1.135:4143/api/SqlApp";
-    }
-    return "http://177.54.239.199:4143/api/SqlApp";
-  }
+ // function getApiBaseUrl(ip: string) {
+  //  if (ip.startsWith("177.54.239.199")) {
+   //   return "http://10.1.1.135:4143/api/SqlApp";
+   // }
+   // return "http://177.54.239.199:4143/api/SqlApp";
+  //}
+
+  function getApiBaseUrl() {
+  return "/api/SqlApp";
+}
 
   // 🔹 Valida empresa salva automaticamente
   async function validarEmpresaSalva() {
@@ -83,7 +87,8 @@ export default function Splash() {
       return;
     }
 
-    const baseUrl = getApiBaseUrl(ip);
+    //const baseUrl = getApiBaseUrl(ip);
+    const baseUrl = getApiBaseUrl();
 
     try {
       const response = await fetch(
