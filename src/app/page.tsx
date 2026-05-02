@@ -69,7 +69,7 @@ export default function Splash() {
     if (ip.startsWith("177.54.239.199")) {
       //return "http://82.25.79.218:4143/api/SqlApp";
       return "http://10.1.1.135:4143/api/SqlApp";
-    }0
+    }
     return "http://177.54.239.199:4143/api/SqlApp";
   }
 
@@ -158,7 +158,8 @@ export default function Splash() {
       setLoading(true);
       setMensagemErro("");
 
-      const baseUrl = getApiBaseUrl(ip);
+      //const baseUrl = getApiBaseUrl(ip);
+      const baseUrl = "http://177.54.239.199:4143/api/SqlApp";
 
       const cnpjNumeros = cnpj.replace(/\D/g, "");
       const idNumeros = id.replace(/\D/g, ""); // caso queira limpar o id também
