@@ -75,7 +75,8 @@ export default function Home() {
     try {
       setLoading(true);
 
-      const baseUrl = getApiBaseUrl(ip);
+      //const baseUrl = getApiBaseUrl(ip);
+    const baseUrl = "http://177.54.239.199:4143/api/SqlApp";
 
       const dadosFiltro = {
         comportamento: 1,
