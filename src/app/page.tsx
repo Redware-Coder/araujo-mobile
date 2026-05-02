@@ -69,7 +69,7 @@ export default function Splash() {
     if (ip.startsWith("177.54.239.199")) {
       //return "http://82.25.79.218:4143/api/SqlApp";
       return "http://10.1.1.135:4143/api/SqlApp";
-    }
+    }0
     return "http://177.54.239.199:4143/api/SqlApp";
   }
 
@@ -84,7 +84,8 @@ export default function Splash() {
       return;
     }
 
-    const baseUrl = getApiBaseUrl(ip);
+    //const baseUrl = getApiBaseUrl(ip);
+    const baseUrl = "http://177.54.239.199:4143/api/SqlApp";
 
     try {
       const response = await fetch(
@@ -92,7 +93,7 @@ export default function Splash() {
       );
 
       if (!response.ok) {
-        setMensagemErro("Erro ao conectar com servidor.");
+        setMensagemErro("Erro ao conectar com servidor");
         setEmpresaValida(false);
         return;
       }
@@ -123,7 +124,7 @@ export default function Splash() {
 
     } catch (error) {
       console.error(error);
-      setMensagemErro("Erro ao conectar com servidor.");
+      setMensagemErro("Erro ao conectar com servidor..");
       setEmpresaValida(false);
     }
   }
@@ -288,7 +289,7 @@ export default function Splash() {
             )}
           </div>
         )}
-    
+            <p>{ip}</p>
             <p className="fixed bottom-0 left-0 w-full text-center font-light text-xs tracking-wide text-gray-200 pb-5 opacity-70">
                ©2026 Redware Informática. <br /> Todos os direitos reservados.</p>
 
