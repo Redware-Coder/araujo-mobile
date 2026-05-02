@@ -104,7 +104,15 @@ export default function Splash() {
         return;
       }
 
+      //const dados = await response.json();
+      //const empresa = dados[0];
       const dados = await response.json();
+
+      if (!dados || dados.length === 0) {
+        setEmpresaValida(false);
+        return;
+      }
+
       const empresa = dados[0];
 
       // 🔎 Verifica validade APÓS receber dados da API
@@ -186,8 +194,16 @@ export default function Splash() {
         throw new Error("Erro na API");
       }
 
+      //const dados = await response.json();
+      //const empresa = dados[0];
       const dados = await response.json();
-      const empresa = dados[0];
+
+      if (!dados || dados.length === 0) {
+        setMensagemErro("Empresa não cadastrada.");
+        return;
+      }
+
+const empresa = dados[0];
 
       // 🔎 Verifica validade antes de continuar
       const dataValidade = new Date(empresa.validade);
