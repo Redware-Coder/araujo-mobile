@@ -76,7 +76,8 @@ export default function Home() {
       setLoading(true);
 
       //const baseUrl = getApiBaseUrl(ip);
-    const baseUrl = "http://177.54.239.199:4143/api/SqlApp";
+      //const baseUrl = "http://177.54.239.199:4143/api/SqlApp";
+      const baseUrl = "/api";
 
       const dadosFiltro = {
         comportamento: 1,
@@ -106,7 +107,6 @@ export default function Home() {
         fetch(`${baseUrl}/Dados`, { signal }),
         fetch(`${baseUrl}/Comunicacao`, { signal })
       ]);
-
       if (!dadosRes.ok || !comunicacaoRes.ok) {
         throw new Error("Erro na API");
       }
