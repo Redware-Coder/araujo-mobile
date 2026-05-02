@@ -88,8 +88,12 @@ export default function Splash() {
     const baseUrl = "http://177.54.239.199:4143/api/SqlApp";
 
     try {
+      //const response = await fetch(
+       // `${baseUrl}/ConfirmarEmpresa?id=${empresaId}&cnpj=${empresaCnpj}`
+      //);
+
       const response = await fetch(
-        `${baseUrl}/ConfirmarEmpresa?id=${empresaId}&cnpj=${empresaCnpj}`
+        `/api/empresa?id=${empresaId}&cnpj=${empresaCnpj}`
       );
 
       if (!response.ok) {
@@ -158,14 +162,16 @@ export default function Splash() {
       setLoading(true);
       setMensagemErro("");
 
-      //const baseUrl = getApiBaseUrl(ip);
-      const baseUrl = "http://177.54.239.199:4143/api/SqlApp";
+      const baseUrl = getApiBaseUrl(ip);
 
       const cnpjNumeros = cnpj.replace(/\D/g, "");
       const idNumeros = id.replace(/\D/g, ""); // caso queira limpar o id também
 
-      const response = await fetch(
-        `${baseUrl}/ConfirmarEmpresa?id=${idNumeros}&cnpj=${cnpjNumeros}`
+      //const response = await fetch(
+       // `${baseUrl}/ConfirmarEmpresa?id=${idNumeros}&cnpj=${cnpjNumeros}`
+      //);
+            const response = await fetch(
+        `/api/empresa?id=${idNumeros}&cnpj=${cnpjNumeros}`
       );
 
       if (response.status === 404) {
