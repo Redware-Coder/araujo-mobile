@@ -75,8 +75,6 @@ export default function Home() {
     try {
       setLoading(true);
 
-      //const baseUrl = getApiBaseUrl(ip);
-      //const baseUrl = "http://177.54.239.199:4143/api/SqlApp";
       const baseUrl = "/api";
 
       const dadosFiltro = {
@@ -91,22 +89,25 @@ export default function Home() {
         medida: filtros.medida
       };
 
-      // 1️⃣ Primeiro envia filtro
+      // 1️⃣ Envia filtro
       await fetch(`${baseUrl}/UpComunicacao`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(dadosFiltro),
-          signal
-        });
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dadosFiltro),
+        signal
+      });
 
-      await delay(4500)
+      // delay só visual (ok manter)
+      await delay(4500);
 
+      // 2️⃣ Busca dados
       const [dadosRes, comunicacaoRes] = await Promise.all([
-        fetch(`${baseUrl}/Dados`),
-        fetch(`${baseUrl}/Comunicacao`)
+        fetch(`${baseUrl}/Dados`, { signal }),
+        fetch(`${baseUrl}/Comunicacao`, { signal })
       ]);
+
       if (!dadosRes.ok || !comunicacaoRes.ok) {
         throw new Error("Erro na API");
       }
@@ -123,18 +124,19 @@ export default function Home() {
         console.error("Erro ao carregar Dashboard:", error);
       }
     } finally {
-      setLoading(false); // 🔥 Só desliga aqui
+      setLoading(false);
     }
   }
 
   carregarDados();
 
   return () => {
-    controller.abort(); // evita duplicação no StrictMode
+    controller.abort();
   };
+
 }, [filtros]);
 
-if (autorizado !== true) {
+  if (autorizado !== true) {
     return null;
   }
 
