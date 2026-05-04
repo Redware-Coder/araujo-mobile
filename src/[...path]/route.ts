@@ -15,10 +15,12 @@ async function handler(req: Request, { params }: { params: { path?: string[] } }
       method: req.method,
       headers: {
         "Content-Type": "application/json",
+        "Connection": "keep-alive",
       },
       body: ["POST", "PUT", "PATCH"].includes(req.method)
         ? await req.text()
         : undefined,
+      cache: "no-store",
     });
 
     const text = await response.text();
