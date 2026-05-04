@@ -93,19 +93,19 @@ export default function Home() {
 
       // 1️⃣ Primeiro envia filtro
       await fetch(`${baseUrl}/UpComunicacao`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dadosFiltro),
-        signal
-      });
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dadosFiltro),
+          signal
+        });
 
-      //Espera o sincronizador atualizar as tabelas
-       await delay(4500);
+      await delay(4500)
 
-      // 2️⃣ Depois busca os dados
       const [dadosRes, comunicacaoRes] = await Promise.all([
-        fetch(`${baseUrl}/Dados`, { signal }),
-        fetch(`${baseUrl}/Comunicacao`, { signal })
+        fetch(`${baseUrl}/Dados`),
+        fetch(`${baseUrl}/Comunicacao`)
       ]);
       if (!dadosRes.ok || !comunicacaoRes.ok) {
         throw new Error("Erro na API");
