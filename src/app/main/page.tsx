@@ -66,7 +66,7 @@ export default function Home() {
 }
 
   useEffect(() => {
-  if (!filtros.medida) return;
+  if (!ip || !filtros.medida) return;
 
   const controller = new AbortController();
   const signal = controller.signal;
@@ -75,7 +75,7 @@ export default function Home() {
     try {
       setLoading(true);
 
-      const baseUrl = "/api";
+      const baseUrl = getApiBaseUrl(ip);
 
       const dadosFiltro = {
         comportamento: 1,
@@ -89,20 +89,18 @@ export default function Home() {
         medida: filtros.medida
       };
 
-      // 1️⃣ Envia filtro
+      // 1️⃣ Primeiro envia filtro
       await fetch(`${baseUrl}/UpComunicacao`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dadosFiltro),
         signal
       });
 
-      // delay só visual (ok manter)
-      await delay(4500);
+      //Espera o sincronizador atualizar as tabelas
+       await delay(4500);
 
-      // 2️⃣ Busca dados
+      // 2️⃣ Depois busca os dados
       const [dadosRes, comunicacaoRes] = await Promise.all([
         fetch(`${baseUrl}/Dados`, { signal }),
         fetch(`${baseUrl}/Comunicacao`, { signal })
@@ -124,19 +122,18 @@ export default function Home() {
         console.error("Erro ao carregar Dashboard:", error);
       }
     } finally {
-      setLoading(false);
+      setLoading(false); // 🔥 Só desliga aqui
     }
   }
 
   carregarDados();
 
   return () => {
-    controller.abort();
+    controller.abort(); // evita duplicação no StrictMode
   };
+}, [ip, filtros]);
 
-}, [filtros]);
-
-  if (autorizado !== true) {
+if (autorizado !== true) {
     return null;
   }
 
