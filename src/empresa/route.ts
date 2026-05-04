@@ -1,55 +1,46 @@
-const EXTERNA = "http://177.54.239.199:4143/api/SqlApp";
-const INTERNA = "http://10.1.1.135:4143/api/SqlApp";
+import { NextResponse } from "next/server";
 
-async function tentarFetch(url: string) {
+const BASE_URL = "http://177.54.239.199:4143/api/SqlApp";
+
+async function handler(req: Request, { params }: { params: { path?: string[] } }) {
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 4000); // 4s timeout
+    const path = params.path?.join("/") || "";
 
-    const res = await fetch(url, {
-      signal: controller.signal,
+    const url = new URL(req.url);
+
+    // 🔗 Monta URL final da API externa
+    const targetUrl = `${BASE_URL}/${path}${url.search}`;
+
+    const response = await fetch(targetUrl, {
+      method: req.method,
+      headers: {
+        "Content-Type": "application/json",
+        "Connection": "keep-alive",
+      },
+      body: ["POST", "PUT", "PATCH"].includes(req.method)
+        ? await req.text()
+        : undefined,
+      cache: "no-store",
     });
 
-    clearTimeout(timeout);
+    const text = await response.text();
 
-    if (!res.ok) return null;
-
-    return await res.json();
-  } catch (err) {
-    return null;
-  }
-}
-
-export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-
-  const id = searchParams.get("id");
-  const cnpj = searchParams.get("cnpj");
-
-  if (!id || !cnpj) {
-    return new Response(JSON.stringify({ erro: "Parâmetros inválidos" }), {
-      status: 400,
+    return new NextResponse(text, {
+      status: response.status,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
-  }
 
-  const endpoint = `/ConfirmarEmpresa?id=${id}&cnpj=${cnpj}`;
+  } catch (error) {
+    console.error("Proxy error:", error);
 
-  // 🔥 1. tenta externa primeiro
-  let data = await tentarFetch(`${EXTERNA}${endpoint}`);
-
-  // 🔁 2. fallback para interna
-  if (!data) {
-    console.log("⚠️ Externa falhou, tentando interna...");
-    data = await tentarFetch(`${INTERNA}${endpoint}`);
-  }
-
-  // ❌ 3. se tudo falhar
-  if (!data) {
-    return new Response(
-      JSON.stringify({ erro: "Não foi possível conectar a nenhuma API" }),
+    return NextResponse.json(
+      { error: "Erro no proxy universal" },
       { status: 500 }
     );
   }
-
-  return Response.json(data);
 }
+
+// suporta todos os métodos
+export { handler as GET, handler as POST, handler as PUT, handler as DELETE };
