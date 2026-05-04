@@ -65,95 +65,74 @@ export default function Home() {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-useEffect(() => {
+  useEffect(() => {
   if (!filtros.medida) return;
 
   const controller = new AbortController();
   const signal = controller.signal;
 
-  carregarDados(signal);
+  async function carregarDados() {
+    try {
+      setLoading(true);
+
+      //const baseUrl = getApiBaseUrl(ip);
+      //const baseUrl = "http://177.54.239.199:4143/api/SqlApp";
+      const baseUrl = "/api";
+
+      const dadosFiltro = {
+        comportamento: 1,
+        loja: filtros.lojaCidade,
+        periodo: filtros.periodo,
+        mes: new Date().getMonth() + 1,
+        ano: new Date().getFullYear(),
+        dataini: filtros.dataInicial,
+        datafin: filtros.dataFinal,
+        referencia: "",
+        medida: filtros.medida
+      };
+
+      // 1️⃣ Primeiro envia filtro
+      await fetch(`${baseUrl}/UpComunicacao`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dadosFiltro),
+        signal
+      });
+
+      //Espera o sincronizador atualizar as tabelas
+       await delay(4500);
+
+      // 2️⃣ Depois busca os dados
+      const [dadosRes, comunicacaoRes] = await Promise.all([
+        fetch(`${baseUrl}/Dados`, { signal }),
+        fetch(`${baseUrl}/Comunicacao`, { signal })
+      ]);
+      if (!dadosRes.ok || !comunicacaoRes.ok) {
+        throw new Error("Erro na API");
+      }
+
+      const dados = await dadosRes.json();
+      const comunicacao = await comunicacaoRes.json();
+
+      setInfo(dados);
+      setValores(dados);
+      setCominucacao(comunicacao);
+
+    } catch (error: any) {
+      if (error.name !== "AbortError") {
+        console.error("Erro ao carregar Dashboard:", error);
+      }
+    } finally {
+      setLoading(false); // 🔥 Só desliga aqui
+    }
+  }
+
+  carregarDados();
 
   return () => {
-    controller.abort();
+    controller.abort(); // evita duplicação no StrictMode
   };
 }, [filtros]);
-
-  async function esperarProcessamento(signal: AbortSignal) {
-  const maxTentativas = 15;
-  let tentativas = 0;
-
-  while (tentativas < maxTentativas) {
-    const res = await fetch("/api/empresa/Comunicacao", { signal });
-
-    if (!res.ok) {
-      throw new Error("Erro ao verificar processamento");
-    }
-
-    const data = await res.json();
-
-    // 🔥 AJUSTE conforme retorno da sua API
-    // Aqui estou assumindo que quando tiver dados, terminou
-    if (data && data.length > 0) {
-      return true;
-    }
-
-    await new Promise(resolve => setTimeout(resolve, 500));
-    tentativas++;
-  }
-
-  throw new Error("Tempo excedido aguardando processamento");
-}
-
-
-async function carregarDados(signal: AbortSignal) {
-  try {
-    setLoading(true);
-
-    const dadosFiltro = {
-      comportamento: 1,
-      loja: filtros.lojaCidade,
-      periodo: filtros.periodo,
-      mes: new Date().getMonth() + 1,
-      ano: new Date().getFullYear(),
-      dataini: filtros.dataInicial,
-      datafin: filtros.dataFinal,
-      referencia: "",
-      medida: filtros.medida
-    };
-
-    await fetch("/api/empresa/UpComunicacao", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dadosFiltro),
-      signal
-    });
-
-    await esperarProcessamento(signal);
-
-    const [dadosRes, comunicacaoRes] = await Promise.all([
-      fetch("/api/empresa/Dados", { signal }),
-      fetch("/api/empresa/Comunicacao", { signal })
-    ]);
-
-    if (!dadosRes.ok || !comunicacaoRes.ok) {
-      throw new Error("Erro na API");
-    }
-
-    const dados = await dadosRes.json();
-    const comunicacao = await comunicacaoRes.json();
-
-    setInfo(dados);
-    setValores(dados);
-    setCominucacao(comunicacao);
-
-  } catch (error: any) {
-    if (error.name !== "AbortError") {
-      console.error("Erro ao carregar Dashboard:", error);
-    }
-  } finally {
-    setLoading(false);
-  }
-}
 
 if (autorizado !== true) {
     return null;
