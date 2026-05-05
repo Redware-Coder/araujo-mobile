@@ -13,7 +13,6 @@ export default function Splash() {
   const [cnpj, setCnpj] = useState("");
   const [ip, setIp] = useState("");
 
-
   const [loading, setLoading] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [dots, setDots] = useState("");
@@ -62,7 +61,6 @@ export default function Splash() {
     }
   }
 
-
   buscarIP();
 }, [iniciarApp]);
 
@@ -86,33 +84,20 @@ export default function Splash() {
       return;
     }
 
-    //const baseUrl = getApiBaseUrl(ip);
-    const baseUrl = "http://177.54.239.199:4143/api/SqlApp";
+    const baseUrl = getApiBaseUrl(ip);
 
     try {
-      //const response = await fetch(
-      //  `${baseUrl}/ConfirmarEmpresa?id=${empresaId}&cnpj=${empresaCnpj}`
-      //);
-
       const response = await fetch(
-        `/api/empresa?id=${empresaId}&cnpj=${empresaCnpj}`
+        `${baseUrl}/ConfirmarEmpresa?id=${empresaId}&cnpj=${empresaCnpj}`
       );
 
       if (!response.ok) {
-        setMensagemErro("Erro ao conectar com servidor");
+        setMensagemErro("Erro ao conectar com servidor.");
         setEmpresaValida(false);
         return;
       }
 
-      //const dados = await response.json();
-      //const empresa = dados[0];
       const dados = await response.json();
-
-      if (!dados || dados.length === 0) {
-        setEmpresaValida(false);
-        return;
-      }
-
       const empresa = dados[0];
 
       // 🔎 Verifica validade APÓS receber dados da API
@@ -133,12 +118,11 @@ export default function Splash() {
         ...prev,
         dev: "start",
       }));
-
       localStorage.setItem("empresa", JSON.stringify(empresa));
 
     } catch (error) {
       console.error(error);
-      setMensagemErro("Erro ao conectar com servidor..");
+      setMensagemErro("Erro ao conectar com servidor.");
       setEmpresaValida(false);
     }
   }
@@ -151,8 +135,8 @@ export default function Splash() {
   // 🔹 Redireciona automático se empresa válida
   useEffect(() => {
     if (empresaValida) {
-      const fadeTimer = setTimeout(() => setFadeOut(true), 4500);
-      const redirectTimer = setTimeout(() => router.push("/main"), 5500);
+      const fadeTimer = setTimeout(() => setFadeOut(true), 3500);
+      const redirectTimer = setTimeout(() => router.push("/main"), 4500);
 
       return () => {
         clearTimeout(fadeTimer);
@@ -172,17 +156,13 @@ export default function Splash() {
       setLoading(true);
       setMensagemErro("");
 
-      //const baseUrl = getApiBaseUrl(ip);
+      const baseUrl = getApiBaseUrl(ip);
 
       const cnpjNumeros = cnpj.replace(/\D/g, "");
       const idNumeros = id.replace(/\D/g, ""); // caso queira limpar o id também
 
-      ///const response = await fetch(
-      ///  `${baseUrl}/ConfirmarEmpresa?id=${idNumeros}&cnpj=${cnpjNumeros}`
-      ///);
-
       const response = await fetch(
-        `/api/empresa?id=${idNumeros}&cnpj=${cnpjNumeros}`
+        `${baseUrl}/ConfirmarEmpresa?id=${idNumeros}&cnpj=${cnpjNumeros}`
       );
 
       if (response.status === 404) {
@@ -194,16 +174,8 @@ export default function Splash() {
         throw new Error("Erro na API");
       }
 
-      //const dados = await response.json();
-      //const empresa = dados[0];
       const dados = await response.json();
-
-      if (!dados || dados.length === 0) {
-        setMensagemErro("Empresa não cadastrada.");
-        return;
-      }
-
-const empresa = dados[0];
+      const empresa = dados[0];
 
       // 🔎 Verifica validade antes de continuar
       const dataValidade = new Date(empresa.validade);
@@ -315,6 +287,7 @@ const empresa = dados[0];
             )}
           </div>
         )}
+    
             <p className="fixed bottom-0 left-0 w-full text-center font-light text-xs tracking-wide text-gray-200 pb-5 opacity-70">
                ©2026 Redware Informática. <br /> Todos os direitos reservados.</p>
 

@@ -23,6 +23,7 @@ export default function Home() {
   useEffect(() => {
     if (filtros.dev === "start") {
       setAutorizado(true);
+      console.log("DEV:", filtros.dev);
     } else {
       setAutorizado(false);
       router.replace("/");
