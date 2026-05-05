@@ -43,14 +43,7 @@ export function FiltroW() {
 
      const router = useRouter();
        const [autorizado, setAutorizado] = useState(false);
-            useEffect(() => {
-         if (filtros.dev === "start") {
-           setAutorizado(true);
-         } else {
-           setAutorizado(false);
-           router.replace("/");
-         }
-       }, [filtros.dev, router]);
+        
 
   const lojaCidade = [
     "Todas", "Tocantins", "Pará", "Araguaína",  "Matriz", "Matriz & T. de A",
@@ -160,13 +153,15 @@ const medidasLocal2 = [
    //const [medidaDados, setMedidas] = useState() 
    
     useEffect(() => {
-      setLojaSelecionada(filtros.lojaCidade)
-      setPeriodoSelecionado(filtros.periodo)
-      setDate(filtros.dataInicial ?? new Date())
-      setDateFin(filtros.dataFinal ?? new Date())
-      setMedidaSelecionada(filtros.medida)
-      
-    }, [filtros])
+  if (!filtros) return;
+
+    setLojaSelecionada(prev => prev ?? filtros.lojaCidade)
+    setPeriodoSelecionado(prev => prev ?? filtros.periodo)
+    setDate(prev => prev ?? filtros.dataInicial ?? new Date())
+    setDateFin(prev => prev ?? filtros.dataFinal ?? new Date())
+    setMedidaSelecionada(prev => prev ?? filtros.medida)
+
+  }, []) // 🔥 REMOVE filtros daqui
 
     const [ip, setIp] = useState("");
     
@@ -252,7 +247,7 @@ const medidasLocal2 = [
        }, 100)
 
        return () => clearTimeout(timer)
-       }, [filtros, ip])
+       }, [ip])
 
 if (!autorizado) return null;
  
