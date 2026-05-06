@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
   const id = searchParams.get("id");
   const cnpj = searchParams.get("cnpj");
 
-  const url = `http://10.1.1.135:4143/api/SqlApp/ConfirmarEmpresa?id=${id}&cnpj=${cnpj}`;
+  const url = `http://177.54.239.199:4143/api/SqlApp/ConfirmarEmpresa?id=${id}&cnpj=${cnpj}`;
 
   try {
     const response = await fetch(url);
