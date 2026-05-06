@@ -66,7 +66,11 @@ export default function Splash() {
 
   // 🔹 URL base da API
   function getApiBaseUrl(ip: string) {
-    return "/api";
+    if (ip.startsWith("177.54.239.199")) {
+      //return "http://82.25.79.218:4143/api/SqlApp";
+      return "http://10.1.1.135:4143/api/SqlApp";
+    }
+    return "http://177.54.239.199:4143/api/SqlApp";
   }
 
   // 🔹 Valida empresa salva automaticamente
@@ -80,7 +84,8 @@ export default function Splash() {
       return;
     }
 
-    const baseUrl = getApiBaseUrl(ip);
+    //const baseUrl = getApiBaseUrl(ip);
+    const baseUrl = "/api";
 
     try {
       const response = await fetch(
@@ -152,7 +157,8 @@ export default function Splash() {
       setLoading(true);
       setMensagemErro("");
 
-      const baseUrl = getApiBaseUrl(ip);
+      //const baseUrl = getApiBaseUrl(ip);
+      const baseUrl = "/api";
 
       const cnpjNumeros = cnpj.replace(/\D/g, "");
       const idNumeros = id.replace(/\D/g, ""); // caso queira limpar o id também
