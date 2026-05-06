@@ -84,7 +84,8 @@ export default function Splash() {
       return;
     }
 
-    const baseUrl = getApiBaseUrl(ip);
+    //const baseUrl = getApiBaseUrl(ip);
+    const baseUrl = "/api/SqlApp";
 
     try {
       const response = await fetch(
@@ -156,7 +157,8 @@ export default function Splash() {
       setLoading(true);
       setMensagemErro("");
 
-      const baseUrl = getApiBaseUrl(ip);
+      //const baseUrl = getApiBaseUrl(ip);
+      const baseUrl = "/api/SqlApp";
 
       const cnpjNumeros = cnpj.replace(/\D/g, "");
       const idNumeros = id.replace(/\D/g, ""); // caso queira limpar o id também
