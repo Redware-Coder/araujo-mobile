@@ -97,7 +97,8 @@ export default function Giro() {
   if (!ip || !filtros.medida) return;
 
   setLoading(true);
-  const baseUrl = getApiBaseUrl(ip);
+  //const baseUrl = getApiBaseUrl(ip);
+  const baseUrl = "/api";
 
   const timer = setTimeout(() => { 
 

@@ -89,7 +89,8 @@ export default function ConsultarProd() {
     if (!ip) return;
 
     setLoading(true);
-    const baseUrl = getApiBaseUrl(ip);
+    //const baseUrl = getApiBaseUrl(ip);
+  const baseUrl = "/api";
 
     const timer = setTimeout(async () => {
       try {

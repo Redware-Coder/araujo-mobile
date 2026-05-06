@@ -202,7 +202,8 @@ useEffect(() => {
     try {
       setLoading(true);
 
-      const baseUrl = getApiBaseUrl(ip);
+      //const baseUrl = getApiBaseUrl(ip);
+      const baseUrl = "/api";
 
       // 2️⃣ Monta URL incluindo ID e/ou CNPJ
       const url = new URL(`${baseUrl}/EmpresaDados`);

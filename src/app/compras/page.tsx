@@ -88,7 +88,8 @@ export default function Compras() {
        try {
          setLoading(true);
    
-         const baseUrl = getApiBaseUrl(ip);
+         //const baseUrl = getApiBaseUrl(ip);
+        const baseUrl = "/api";
    
          const dadosFiltro = {
            comportamento: 7,
