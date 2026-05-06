@@ -1,26 +1,19 @@
 import { NextRequest } from "next/server";
 
-const BASE_URL = "http://10.1.1.135:4143";
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
 
-async function handler(req: NextRequest, { params }: any) {
-  const path = params.path.join("/");
-  const url = `${BASE_URL}/${path}${req.nextUrl.search}`;
+  const id = searchParams.get("id");
+  const cnpj = searchParams.get("cnpj");
 
-  const body = req.method !== "GET" ? await req.text() : undefined;
+  const url = `http://10.1.1.135:4143/api/SqlApp/ConfirmarEmpresa?id=${id}&cnpj=${cnpj}`;
 
-  const response = await fetch(url, {
-    method: req.method,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body,
-  });
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
 
-  const data = await response.text();
-
-  return new Response(data, {
-    status: response.status,
-  });
+    return Response.json(data);
+  } catch (err) {
+    return Response.json({ error: "Erro ao conectar API interna" }, { status: 500 });
+  }
 }
-
-export { handler as GET, handler as POST, handler as PUT, handler as DELETE };
