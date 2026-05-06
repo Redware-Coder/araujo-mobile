@@ -69,7 +69,8 @@ const [ip, setIp] = useState("");
       if (!ip) return;
 
       async function aplicarFiltro() {
-        const baseUrl = getApiBaseUrl(ip);
+        //const baseUrl = getApiBaseUrl(ip);
+        const baseUrl = "/api";
 
         const dados = {
           comportamento: 5,
@@ -114,7 +115,8 @@ useEffect(() => {
   if (!ip || !filtros.medida) return;  
 
   setLoading(true);
-  const baseUrl = getApiBaseUrl(ip);
+  //const baseUrl = getApiBaseUrl(ip);
+  const baseUrl = "/api";
 
   const timer = setTimeout(() => {
     async function Read() {

@@ -104,8 +104,8 @@ export default function Estoque() {
     if (!ip) return;
 
     setLoading(true);
-    const baseUrl = getApiBaseUrl(ip);
-
+    //const baseUrl = getApiBaseUrl(ip);
+    const baseUrl = "/api";
     const timer = setTimeout(async () => {      
       
     async function Iniciar() {
