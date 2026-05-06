@@ -67,7 +67,8 @@ export default function Estoque() {
       if (!ip) return;
 
       async function aplicarFiltro() {
-        const baseUrl = getApiBaseUrl(ip);
+        //const baseUrl = getApiBaseUrl(ip);
+        const baseUrl = "/api";
 
         const dados = {
           comportamento: 3,
