@@ -1,14 +1,10 @@
-import { NextRequest } from "next/server";
-
 export async function GET(
   req: NextRequest,
-  { params }: { params: { path: string[] } }
+  context: { params: Promise<{ path: string[] }> }
 ) {
-  const path = params.path.join("/");
+  const { path } = await context.params;
 
-  const url = `http://177.54.239.199:4143/api/SqlApp/${path}${
-    req.nextUrl.search
-  }`;
+  const url = `http://177.54.239.199:4143/api/SqlApp/${path.join("/")}${req.nextUrl.search}`;
 
   try {
     const response = await fetch(url);
