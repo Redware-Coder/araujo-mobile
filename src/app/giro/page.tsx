@@ -106,7 +106,8 @@ export default function Giro() {
     async function Read() {
       try {
         setLoading(true);
-        const baseUrl = getApiBaseUrl(ip);
+        //const baseUrl = getApiBaseUrl(ip);
+        const baseUrl = "/api";
         const response = await fetch(`${baseUrl}/Giro`);
         const data = await response.json();
         setGiroDados(data);
