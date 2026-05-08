@@ -205,7 +205,8 @@ const medidasLocal2 = [
     medida: medidaSelecionada,
   }));
 
-  const baseUrl = getApiBaseUrl(ip);
+  //const baseUrl = getApiBaseUrl(ip);
+  const baseUrl = "/api";
 
   const dados = {
     comportamento: 1,
