@@ -156,7 +156,7 @@ useEffect(() => {
                     {loading ? (
                       <div className="h-4 w-20 bg-gray-300 rounded animate-pulse ml-auto" />
                     ) : (
-                      <>{formatarNumero(totalTudo)}</>
+                      <>{formatarNumero(totalProd + totalServ)}</>
                     )}
                   </TableCell>
                 </TableRow>
