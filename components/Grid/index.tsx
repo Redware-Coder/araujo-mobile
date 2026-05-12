@@ -129,7 +129,7 @@ useEffect(() => {
                                 <TableCell>{lojaDados.nome}</TableCell>
                                 <TableCell className="text-right text-blue-600">{formatarNumero(Number(lojaDados.produto))}</TableCell>
                                 <TableCell className="text-right text-gray-800">{formatarNumero(Number(lojaDados.servico))}</TableCell>
-                                <TableCell className="text-right text-green-800">{formatarNumero(Number(lojaDados.total))}</TableCell>
+                                <TableCell className="text-right text-green-800">{formatarNumero(Number(lojaDados.produto + lojaDados.servico))}</TableCell>
                               </TableRow>
                             )))}
             </TableBody>
