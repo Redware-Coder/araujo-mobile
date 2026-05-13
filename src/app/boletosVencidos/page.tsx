@@ -169,6 +169,7 @@ export default function Estoque() {
                       <CardTitle className="text-lg sm:text-lg font-normal text-gray-600">                       
                        Loja: {filtros.lojaCidade}<br></br>
                        Período: {filtros.periodo}
+                       <p>Total de vencidos: R$ {valor[0].boletovencido}</p>
                       </CardTitle>
                       <SquareKanban className="ml-auto w-6 h-6"></SquareKanban>
                     </div>
