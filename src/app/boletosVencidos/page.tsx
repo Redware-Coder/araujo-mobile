@@ -3,7 +3,7 @@ import { useFiltro } from '@/components/contexts/FiltroContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Box, House, Library, List, Repeat2, SquareKanban } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { BoletosVencidosSet, Props } from '@/components/buscadores';
+import { BoletosVencidosSet } from '@/components/buscadores';
 import {
   Dialog,
   DialogContent,
@@ -42,7 +42,6 @@ export default function Estoque() {
   
   
   const [loading, setLoading] = useState(false)
-  const [valor, setValores] = useState<Props[]>([]) 
   const [info, setInfo] = useState<BoletosVencidosSet[]>([]) 
  
       
@@ -71,7 +70,7 @@ export default function Estoque() {
    
  }
    
-  useEffect(() => {
+        useEffect(() => {
       if (!ip) return;
 
       async function aplicarFiltro() {
@@ -104,28 +103,10 @@ export default function Estoque() {
   useEffect(() => {
     if (!ip) return;
 
-    const controller = new AbortController();
-    const signal = controller.signal;
-
     setLoading(true);
     //const baseUrl = getApiBaseUrl(ip);
     const baseUrl = "/api";
-    const timer = setTimeout(async () => {    
-      
-      const [dadosRes, comunicacaoRes] = await Promise.all([
-        fetch(`${baseUrl}/Dados`, { signal }),
-        fetch(`${baseUrl}/Comunicacao`, { signal })
-      ]);
-
-      if (!dadosRes.ok || !comunicacaoRes.ok) {
-        throw new Error("Erro na API");
-      }
-
-      const dados = await dadosRes.json();
-      const comunicacao = await comunicacaoRes.json();
-
-      setInfo(dados);
-      setValores(dados);
+    const timer = setTimeout(async () => {      
       
     async function Iniciar() {
       try {
@@ -185,9 +166,6 @@ export default function Estoque() {
                       <SquareKanban className="ml-auto w-6 h-6"></SquareKanban>
                     </div>
                     <CardDescription >
-                      <CardDescription className="text-red-600 font-semibold text-lg">
-                        Total em atraso: R$ {formatarNumero(valor[0].boletovencido)}
-                      </CardDescription>
                     </CardDescription>
                   </CardHeader>
                   <CardContent className='p-2 pt-0 bg-slate-100'>
