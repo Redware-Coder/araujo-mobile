@@ -168,13 +168,19 @@ export default function Estoque() {
                     <div className="flex items-center justify-center">
                       <CardTitle className="text-lg sm:text-lg font-normal text-gray-600">                       
                        Loja: {filtros.lojaCidade}<br></br>
-                       Período: {filtros.periodo}
-                       <p>Total de vencidos: R$ {valor[0].boletovencido}</p>
+                       Período: {filtros.periodo}                      
                       </CardTitle>
                       <SquareKanban className="ml-auto w-6 h-6"></SquareKanban>
                     </div>
                     <CardDescription >
-                      <p>Total de vencidos: R$ </p>
+                       <p>
+                          Total de vencidos:
+                            {" "}
+                            R$ {valor[0]?.boletovencido?.toLocaleString("pt-BR", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            }) ?? "0,00"}
+                          </p>
                     </CardDescription>
                   </CardHeader>
                   <CardContent className='p-2 pt-0 bg-slate-100'>
