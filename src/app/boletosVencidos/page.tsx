@@ -3,7 +3,7 @@ import { useFiltro } from '@/components/contexts/FiltroContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Box, House, Library, List, Repeat2, SquareKanban } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { BoletosVencidosSet, Props } from '@/components/buscadores';
+import { BoletosVencidosSet, Props} from '@/components/buscadores';
 import {
   Dialog,
   DialogContent,
@@ -71,78 +71,66 @@ export default function Estoque() {
    
  }
    
-   useEffect(() => {
-  if (!ip) return;
+        useEffect(() => {
+      if (!ip) return;
 
-  const controller = new AbortController();
-  const signal = controller.signal;
+      async function aplicarFiltro() {
+        //const baseUrl = getApiBaseUrl(ip);
+        const baseUrl = "/api";
 
-  async function carregarDados() {
-    try {
-      setLoading(true);
+        const dados = {
+          comportamento: 4,
+          loja: filtros.lojaCidade,
+          periodo: filtros.periodo,
+          mes: new Date().getMonth() + 1,
+          ano: new Date().getFullYear(),
+          dataini: filtros.dataInicial,
+          datafin: filtros.dataFinal,
+          referencia: "",
+          medida: filtros.medida
+        };
 
-      const baseUrl = "/api";
-
-      const dadosFiltro = {
-        comportamento: 4,
-        loja: filtros.lojaCidade,
-        periodo: filtros.periodo,
-        mes: new Date().getMonth() + 1,
-        ano: new Date().getFullYear(),
-        dataini: filtros.dataInicial,
-        datafin: filtros.dataFinal,
-        referencia: "",
-        medida: filtros.medida
-      };
-
-      // envia filtro
-      await fetch(`${baseUrl}/UpComunicacao`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dadosFiltro),
-        signal
-      });
-
-      // espera sincronizar
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-
-      // busca tudo junto
-      const [dadosRes, boletosRes] = await Promise.all([
-        fetch(`${baseUrl}/Dados`, { signal }),
-        fetch(`${baseUrl}/BoletosVencidos`, { signal })
-      ]);
-
-      if (!dadosRes.ok || !boletosRes.ok) {
-        throw new Error("Erro na API");
+        await fetch(`${baseUrl}/UpComunicacao`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dados),
+        });
       }
 
-      const dados = await dadosRes.json();
-      const boletos = await boletosRes.json();
+      aplicarFiltro();
+    }, [filtros, ip]);  
+  
 
-      // dados do dashboard
-      setValores(dados);
+  useEffect(() => {
+    if (!ip) return;
 
-      // lista de boletos
-      setInfo(boletos);
+    setLoading(true);
+    //const baseUrl = getApiBaseUrl(ip);
+    const baseUrl = "/api";
+    const timer = setTimeout(async () => {      
+      
+    async function Iniciar() {
+      try {
+        const response = await fetch(`${baseUrl}/BoletosVencidos`);
+        const data = await response.json()
+        setInfo(data)
 
-    } catch (error: any) {
-      if (error.name !== "AbortError") {
-        console.error("Erro ao carregar boletos:", error);
+        const response2 = await fetch(`${baseUrl}/Dados`);
+        const dados = await response2.json()
+        setValores(dados)
+
+
+      } catch (error) {
+        console.error("Erro ao Conectar com Banco de dados")
       }
-    } finally {
-      setLoading(false);
-    }
-  }
+    }           
+        setLoading(false);
+        Iniciar();
+    }, 3000);
+    
 
-  carregarDados();
-
-  return () => {
-    controller.abort();
-  };
-
-}, [ip, filtros]);
+    return () => clearTimeout(timer);
+  }, [ip, filtros]);
 
   const formatarNumero = (valor: number): string =>
   new Intl.NumberFormat('pt-BR', {
@@ -185,7 +173,7 @@ export default function Estoque() {
                       <SquareKanban className="ml-auto w-6 h-6"></SquareKanban>
                     </div>
                     <CardDescription >
-                      <p>Total Vencido: R$ {valor[0].boletovencido}</p>
+                      <p>Total de vencidos: R$ </p>
                     </CardDescription>
                   </CardHeader>
                   <CardContent className='p-2 pt-0 bg-slate-100'>
