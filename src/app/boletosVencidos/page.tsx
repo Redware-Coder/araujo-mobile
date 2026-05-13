@@ -173,7 +173,7 @@ export default function Estoque() {
                       <SquareKanban className="ml-auto w-6 h-6"></SquareKanban>
                     </div>
                     <CardDescription >
-                       <p>
+                       <p className='text-lg text-red-600 font-semibold'>
                           Total de vencidos:
                             {" "}
                             R$ {valor[0]?.boletovencido?.toLocaleString("pt-BR", {
