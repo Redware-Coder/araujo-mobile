@@ -42,8 +42,8 @@ export default function Estoque() {
   
   
   const [loading, setLoading] = useState(false)
-  const [info, setInfo] = useState<BoletosVencidosSet[]>([]) 
   const [valor, setValores] = useState<Props[]>([]) 
+  const [info, setInfo] = useState<BoletosVencidosSet[]>([]) 
  
       
  const [ip, setIp] = useState("");
@@ -72,77 +72,77 @@ export default function Estoque() {
  }
    
   useEffect(() => {
-  if (!ip) return;
+      if (!ip) return;
 
-  const controller = new AbortController();
-  const signal = controller.signal;
+      async function aplicarFiltro() {
+        //const baseUrl = getApiBaseUrl(ip);
+        const baseUrl = "/api";
 
-  async function carregarDados() {
-    try {
-      setLoading(true);
+        const dados = {
+          comportamento: 4,
+          loja: filtros.lojaCidade,
+          periodo: filtros.periodo,
+          mes: new Date().getMonth() + 1,
+          ano: new Date().getFullYear(),
+          dataini: filtros.dataInicial,
+          datafin: filtros.dataFinal,
+          referencia: "",
+          medida: filtros.medida
+        };
 
-      const baseUrl = "/api";
+        await fetch(`${baseUrl}/UpComunicacao`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dados),
+        });
+      }
 
-      const dadosFiltro = {
-        comportamento: 4,
-        loja: filtros.lojaCidade,
-        periodo: filtros.periodo,
-        mes: new Date().getMonth() + 1,
-        ano: new Date().getFullYear(),
-        dataini: filtros.dataInicial,
-        datafin: filtros.dataFinal,
-        referencia: "",
-        medida: filtros.medida
-      };
+      aplicarFiltro();
+    }, [filtros, ip]);  
+  
 
-      // envia filtro
-      await fetch(`${baseUrl}/UpComunicacao`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dadosFiltro),
-        signal
-      });
+  useEffect(() => {
+    if (!ip) return;
 
-      // espera sincronizar
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+    const controller = new AbortController();
+    const signal = controller.signal;
 
-      // busca tudo junto
-      const [dadosRes, boletosRes] = await Promise.all([
+    setLoading(true);
+    //const baseUrl = getApiBaseUrl(ip);
+    const baseUrl = "/api";
+    const timer = setTimeout(async () => {    
+      
+      const [dadosRes, comunicacaoRes] = await Promise.all([
         fetch(`${baseUrl}/Dados`, { signal }),
-        fetch(`${baseUrl}/BoletosVencidos`, { signal })
+        fetch(`${baseUrl}/Comunicacao`, { signal })
       ]);
 
-      if (!dadosRes.ok || !boletosRes.ok) {
+      if (!dadosRes.ok || !comunicacaoRes.ok) {
         throw new Error("Erro na API");
       }
 
       const dados = await dadosRes.json();
-      const boletos = await boletosRes.json();
+      const comunicacao = await comunicacaoRes.json();
 
-      // dados do dashboard
+      setInfo(dados);
       setValores(dados);
-
-      // lista de boletos
-      setInfo(boletos);
-
-    } catch (error: any) {
-      if (error.name !== "AbortError") {
-        console.error("Erro ao carregar boletos:", error);
+      
+    async function Iniciar() {
+      try {
+        const response = await fetch(`${baseUrl}/BoletosVencidos`);
+        const data = await response.json()
+        setInfo(data)
+      } catch (error) {
+        console.error("Erro ao Conectar com Banco de dados")
       }
-    } finally {
-      setLoading(false);
-    }
-  }
+    }           
+        setLoading(false);
+        Iniciar();
+    }, 3000);
+    
 
-  carregarDados();
-
-  return () => {
-    controller.abort();
-  };
-
-}, [ip, filtros]);
+    return () => clearTimeout(timer);
+  }, [ip, filtros]);
 
   const formatarNumero = (valor: number): string =>
   new Intl.NumberFormat('pt-BR', {
