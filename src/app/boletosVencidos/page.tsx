@@ -185,7 +185,7 @@ export default function Estoque() {
                       <SquareKanban className="ml-auto w-6 h-6"></SquareKanban>
                     </div>
                     <CardDescription >
-                      <p>Total Vencido: R$</p>
+                      <p>Total Vencido: R$ {valor[0].boletovencido}</p>
                     </CardDescription>
                   </CardHeader>
                   <CardContent className='p-2 pt-0 bg-slate-100'>
