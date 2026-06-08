@@ -93,7 +93,7 @@ export default function ConsultarProd() {
           const baseUrl = "/api";
   
           const dados = {
-            comportamento: 8,
+            comportamento: 3,
             loja: filtros.lojaCidade,
             periodo: filtros.periodo,
             mes: new Date().getMonth() + 1,
