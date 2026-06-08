@@ -71,7 +71,7 @@ export default function Estoque() {
    
  }
    
-        useEffect(() => {
+  useEffect(() => {
       if (!ip) return;
 
       async function aplicarFiltro() {

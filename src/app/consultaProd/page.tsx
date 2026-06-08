@@ -84,6 +84,35 @@ export default function ConsultarProd() {
   if (filtros.lojaCidade === "Augustinópolis") lojas = "12"
   if (filtros.lojaCidade === "Paraíso") lojas = "14"
   if (filtros.lojaCidade === "Xinguara") lojas = "16"
+
+  useEffect(() => {
+        if (!ip) return;
+  
+        async function aplicarFiltro() {
+          //const baseUrl = getApiBaseUrl(ip);
+          const baseUrl = "/api";
+  
+          const dados = {
+            comportamento: 8,
+            loja: filtros.lojaCidade,
+            periodo: filtros.periodo,
+            mes: new Date().getMonth() + 1,
+            ano: new Date().getFullYear(),
+            dataini: filtros.dataInicial,
+            datafin: filtros.dataFinal,
+            referencia: "",
+            medida: filtros.medida
+          };
+  
+          await fetch(`${baseUrl}/UpComunicacao`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dados),
+          });
+        }
+  
+        aplicarFiltro();
+      }, [filtros, ip]); 
   
   useEffect(() => {
     if (!ip) return;
