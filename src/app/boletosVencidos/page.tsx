@@ -119,7 +119,6 @@ export default function Estoque() {
         const dados = await response2.json()
         setValores(dados)
 
-
       } catch (error) {
         console.error("Erro ao Conectar com Banco de dados")
       }
@@ -138,6 +137,10 @@ export default function Estoque() {
     maximumFractionDigits: 2,
   }).format(valor);
       
+const totalVencidos = info.reduce(
+  (total, item) => total + Number(item.valor),
+  0
+);
 
  const inputRef = useRef<HTMLInputElement>(null);
  const [medidaSelecionada, setMedidaSelecionada] = useState<string>(filtros.medida ?? "")
@@ -176,7 +179,7 @@ export default function Estoque() {
                        <p className='text-lg text-red-600 font-semibold'>
                           Total de vencidos:
                             {" "}
-                            R$ {valor[0]?.boletovencido?.toLocaleString("pt-BR", {
+                            R$ {totalVencidos?.toLocaleString("pt-BR", {
                               minimumFractionDigits: 2,
                               maximumFractionDigits: 2,
                             }) ?? "0,00"}
@@ -229,7 +232,7 @@ export default function Estoque() {
                              
 
                             <div className='w-15 h-auto text-sm   '>
-                               <p>Parcela:</p> {vencidos.parcela}
+                               <p>Parcela:</p> {vencidos.parcela} 
                              </div>
                                
 
