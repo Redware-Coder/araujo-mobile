@@ -176,7 +176,7 @@ const totalVencidos = info.reduce(
                       <SquareKanban className="ml-auto w-6 h-6"></SquareKanban>
                     </div>
                     <CardDescription >                         
-                      {loading && (
+                       {!loading && info.length > 0 && (
                        <p className='text-lg text-red-600 font-semibold'>  
                         Total de vencidos:                                                   
                             R$ {totalVencidos?.toLocaleString("pt-BR", {
